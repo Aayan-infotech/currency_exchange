@@ -1,0 +1,28 @@
+# =====================================================
+# .htaccess security for /wp-content/uploads/
+# =====================================================
+ 
+# 1. Prevent execution of PHP scripts, shell scripts, and other executables
+#    All PHP, shell scripts, and executables are blocked
+<FilesMatch "\.(php|php5|php7|php8|phtml|pl|py|jsp|asp|aspx|cgi|sh)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+ 
+# 2. Allow only safe file formats
+#    Only safe file formats (images, docs, audio, video) are accessible
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|tiff|pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv|mp3|mp4|wav|ogg|webm|mov)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+ 
+# 3. Disable directory browsing
+#    Directory browsing is disabled
+Options -Indexes
+ 
+# 4. Protect .htaccess itself
+#    The .htaccess file itself cannot be accessed
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>

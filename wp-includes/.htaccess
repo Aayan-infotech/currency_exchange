@@ -1,0 +1,33 @@
+# =====================================================
+# .htaccess security for /wp-includes/
+# =====================================================
+ 
+# 1. Block direct access to all PHP files in wp-includes
+
+ 
+# 2. Deny access to hidden and sensitive system/config files
+<FilesMatch "^(.*)\.(htaccess|htpasswd|ini|log|sh|bak|inc|swp|dist)$">
+    Require all denied
+</FilesMatch>
+ 
+# 3. Protect .htaccess itself
+<Files .htaccess>
+    Require all denied
+</Files>
+ 
+# 4. Disable directory browsing
+Options -Indexes
+ 
+# 5. Block access to XML, JSON, or other sensitive files that shouldn't be directly accessed
+<FilesMatch "\.(xml|json|lock|md|yml)$">
+    Require all denied
+</FilesMatch>
+ 
+# 6. Deny access to readme and license files
+<FilesMatch "^(readme\.html|license\.txt)$">
+    Require all denied
+</FilesMatch>
+ 
+# =====================================================
+# End of /wp-includes/ .htaccess
+# =====================================================

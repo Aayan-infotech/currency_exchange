@@ -1,0 +1,22 @@
+
+ 
+# # Block access to sensitive files
+# <FilesMatch "\.(htaccess|htpasswd|ini|log|sh|bak|inc|swp|dist)$">
+#     Require all denied
+# </FilesMatch>
+ 
+# # Disable directory browsing
+# Options -Indexes
+ 
+# # Protect .htaccess itself
+# <Files ".htaccess">
+#     Require all denied
+# </Files>
+ 
+# # Prevent non-PHP script execution inside wp-admin
+# <FilesMatch "\.(pl|py|jsp|asp|aspx|cgi|sh)$">
+#     Require all denied
+# </FilesMatch>
+ 
+# # Custom error message for blocked countries
+# ErrorDocument 403 "Access denied. Only visitors from India are allowed."
