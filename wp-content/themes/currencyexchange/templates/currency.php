@@ -63,30 +63,30 @@ get_header();
                             </thead>
                             <tbody>
                                 <?php
-                                if (is_user_logged_in()) {
-                                    $user_id = get_current_user_id();
-                                    $country = get_user_meta($user_id, 'country', true);
+                                $user_id = get_current_user_id();
+                                $country = get_user_meta($user_id, 'country', true);
+                                if (is_user_logged_in() && $country && strtolower($country) !== 'all') {
                                     $args = array(
-                                        'post_type' => 'currency',
+                                        'post_type'      => 'currency',
                                         'posts_per_page' => -1,
-                                        'post_status' => 'publish',
-                                        'orderby' => 'title',
-                                        'order' => 'ASC',
-                                        'meta_query' => array(
+                                        'post_status'    => 'publish',
+                                        'orderby'        => 'title',
+                                        'order'          => 'ASC',
+                                        'meta_query'     => array(
                                             array(
-                                                'key' => 'country',
-                                                'value' => $country ? $country : 'united states',
+                                                'key'     => 'country',
+                                                'value'   => $country,
                                                 'compare' => '='
                                             )
                                         )
                                     );
                                 } else {
                                     $args = array(
-                                        'post_type' => 'currency',
+                                        'post_type'      => 'currency',
                                         'posts_per_page' => -1,
-                                        'post_status' => 'publish',
-                                        'orderby' => 'title',
-                                        'order' => 'ASC',
+                                        'post_status'    => 'publish',
+                                        'orderby'        => 'title',
+                                        'order'          => 'ASC',
                                     );
                                 }
                                 $query = new WP_Query($args);

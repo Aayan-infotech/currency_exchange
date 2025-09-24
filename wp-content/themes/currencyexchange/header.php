@@ -50,7 +50,7 @@ $saved_country = $user_id ? get_user_meta($user_id, 'country', true) : '';
                     ?>
                     <form class="d-flex me-3">
                         <select class="form-select form-select-sm" id="userCountry">
-                            <option value="all">Select Country</option>
+                            <option value="all">Select All</option>
                             <?php foreach ($countries as $country) : ?>
                                 <option value="<?php echo esc_attr(strtolower($country)); ?>"
                                     <?php selected($saved_country, strtolower($country)); ?>>
