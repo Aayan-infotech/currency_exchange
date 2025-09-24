@@ -1,0 +1,37 @@
+[23-Sep-2025 06:50:34 UTC] PHP Fatal error:  Uncaught TypeError: Unsupported operand types: string * int in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\functions.php:698
+Stack trace:
+#0 E:\xampp\htdocs\currencyexchange\wp-includes\class-wp-hook.php(324): create_stripe_session('')
+#1 E:\xampp\htdocs\currencyexchange\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#2 E:\xampp\htdocs\currencyexchange\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#3 E:\xampp\htdocs\currencyexchange\wp-admin\admin-ajax.php(192): do_action('wp_ajax_create_...')
+#4 {main}
+  thrown in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\functions.php on line 698
+[23-Sep-2025 07:04:43 UTC] PHP Parse error:  syntax error, unexpected single-quoted string "success_url", expecting "]" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\functions.php on line 705
+[23-Sep-2025 07:40:00 UTC] Automatic updates starting...
+[23-Sep-2025 07:40:03 UTC] Automatic updates complete.
+[23-Sep-2025 07:46:06 UTC] PHP Warning:  Undefined array key "order_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 11
+[23-Sep-2025 07:46:06 UTC] PHP Warning:  Undefined array key "session_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 12
+[23-Sep-2025 09:43:29 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_currency_symbol() in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php:167
+Stack trace:
+#0 E:\xampp\htdocs\currencyexchange\wp-includes\template-loader.php(106): include()
+#1 E:\xampp\htdocs\currencyexchange\wp-blog-header.php(19): require_once('E:\\xampp\\htdocs...')
+#2 E:\xampp\htdocs\currencyexchange\index.php(17): require('E:\\xampp\\htdocs...')
+#3 {main}
+  thrown in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php on line 167
+[23-Sep-2025 09:47:30 UTC] PHP Warning:  Undefined variable $currancy in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php on line 315
+[23-Sep-2025 09:47:30 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_currency_symbol() in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php:320
+Stack trace:
+#0 E:\xampp\htdocs\currencyexchange\wp-includes\template-loader.php(106): include()
+#1 E:\xampp\htdocs\currencyexchange\wp-blog-header.php(19): require_once('E:\\xampp\\htdocs...')
+#2 E:\xampp\htdocs\currencyexchange\index.php(17): require('E:\\xampp\\htdocs...')
+#3 {main}
+  thrown in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php on line 320
+[23-Sep-2025 09:48:00 UTC] PHP Warning:  Undefined variable $currancy in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php on line 316
+[23-Sep-2025 09:48:00 UTC] PHP Warning:  Array to string conversion in E:\xampp\htdocs\currencyexchange\wp-includes\formatting.php on line 1096
+[23-Sep-2025 09:51:30 UTC] PHP Warning:  Undefined variable $currency in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\buy.php on line 167
+[23-Sep-2025 09:51:30 UTC] PHP Warning:  Array to string conversion in E:\xampp\htdocs\currencyexchange\wp-includes\formatting.php on line 1096
+[23-Sep-2025 09:52:24 UTC] PHP Warning:  Array to string conversion in E:\xampp\htdocs\currencyexchange\wp-includes\formatting.php on line 1096
+[23-Sep-2025 11:08:18 UTC] PHP Warning:  Undefined array key "session_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 12
+[23-Sep-2025 11:24:47 UTC] PHP Warning:  Undefined array key "session_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 12
+[23-Sep-2025 11:28:08 UTC] PHP Warning:  Undefined array key "session_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 12
+[23-Sep-2025 11:29:19 UTC] PHP Warning:  Undefined array key "session_id" in E:\xampp\htdocs\currencyexchange\wp-content\themes\currencyexchange\templates\checkout.php on line 12

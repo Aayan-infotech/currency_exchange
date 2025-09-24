@@ -1,0 +1,247 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 40px 0;
+}
+
+.auth-card {
+    margin-top: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    transition: transform 0.3s ease;
+}
+
+.auth-card:hover {
+    transform: translateY(-5px);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-title {
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--dark-color);
+}
+
+.form-control {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 166, 81, 0.25);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}
+
+.password-input-group {
+    position: relative;
+}
+
+.auth-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.auth-btn {
+    width: 200px;
+    background-color: #275e03;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.forgot-link {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.error-msg {
+    font-size: 13px;
+    color: red;
+    margin-top: 4px;
+    display: block;
+}
+
+.delivery-mode-card {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-mode-card h2 {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.delivery-mode-card p {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.delivery-mode-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 15px 20px;
+}
+
+.delivery-mode-btn i {
+    font-size: 18px;
+    background-color: #222;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.delivery-mode-btn:hover {
+    background: var(--primary-color, #00a651);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.delivery-mode-btn:hover i {
+    background-color: #fff;
+    color: var(--primary-color);
+}
+
+.selected {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.selected i {
+    background-color: #fff;
+    color: var(--primary-color);
+}
+
+.continue-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.continue-btn:hover {
+    background-color: #008740;
+    transform: translateY(-2px);
+}
+
+.continue-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.address-card {
+    background-color: #fff;
+    color: #000000;
+    border-radius: 12px;
+    padding: 15px 20px;
+    min-width: 220px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid #ddd;
+}
+
+.address-card.active {
+    background-color: #2e6d1f;
+    color: #fff;
+}
+
+.address-card .address-info {
+    font-size: 14px;
+}
+
+.address-card .address-info strong {
+    font-size: 16px;
+}
+
+.service-image-wrapper {
+    width: 100%;
+    max-width: 800px;
+    /* Maximum width of image */
+    margin: 0 auto;
+    /* Center image */
+}
+
+.service-image {
+    width: 100%;
+    height: auto;
+    /* Maintain aspect ratio */
+    object-fit: cover;
+    /* Crop image if needed */
+    max-height: 500px;
+    /* Optional: limit height */
+}
+
+/* Optional: adjust for smaller screens */
+@media (max-width: 768px) {
+    .service-image {
+        max-height: 300px;
+    }
+}
