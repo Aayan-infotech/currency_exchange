@@ -13,20 +13,6 @@ License URI:
 Text Domain: Currency Theme
 Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
 */
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    overflow-x: hidden;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-}
 
 :root {
     --primary-color: #00a651;
@@ -34,6 +20,29 @@ body {
     --light-color: #ffffff;
 }
 
+body {
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+    }
+
+}
 
 /* Navbar */
 .navbar-custom {
@@ -457,6 +466,7 @@ button.btn.btn-services:hover {
 .--bs-table-bg {
     background-color: none;
 }
+
 .navbar-toggler {
     padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
     font-size: var(--bs-navbar-toggler-font-size);
@@ -467,6 +477,7 @@ button.btn.btn-services:hover {
     border-radius: var(--bs-navbar-toggler-border-radius);
     transition: var(--bs-navbar-toggler-transition);
 }
+
 @media (max-width: 576px) {
     .navbar-brand {
         font-size: 12px !important;
