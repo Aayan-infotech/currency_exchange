@@ -289,53 +289,62 @@ add_action('wp_ajax_custom_reset_password', 'custom_reset_password');
 
 function custom_location_search()
 {
+    global $wpdb;
     if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
-    $search = sanitize_text_field($_POST['search'] ?? '');
-    $sort   = sanitize_text_field($_POST['sort'] ?? '');
-    $args = [
-        'post_type'      => 'locations',
-        'post_status'    => 'publish',
-        's'              => $search,
-        'posts_per_page' => -1,
-    ];
+    $search   = sanitize_text_field($_POST['search'] ?? '');
+    $sort     = sanitize_text_field($_POST['sort'] ?? 'latest');
+    $order_by = "p.post_date DESC";
     switch ($sort) {
         case 'asc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'ASC';
+            $order_by = "p.post_title ASC";
             break;
         case 'desc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'DESC';
+            $order_by = "p.post_title DESC";
             break;
         case 'oldest':
-            $args['orderby'] = 'date';
-            $args['order']   = 'ASC';
+            $order_by = "p.post_date ASC";
             break;
         case 'latest':
-            $args['orderby'] = 'date';
-            $args['order']   = 'DESC';
+            $order_by = "p.post_date DESC";
             break;
     }
-    $query = new WP_Query($args);
+    $sql = "
+    SELECT DISTINCT p.ID, p.post_title, p.post_date
+    FROM {$wpdb->posts} p
+    LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
+    WHERE p.post_type = 'locations'
+      AND p.post_status = 'publish'
+";
+    if (!empty($search)) {
+        $like = '%' . $wpdb->esc_like($search) . '%';
+        $sql .= $wpdb->prepare("
+        AND (
+            p.post_title LIKE %s
+            OR (pm.meta_key IN ('number','email','location') AND pm.meta_value LIKE %s)
+        )
+    ", $like, $like);
+    }
+    $sql .= " ORDER BY $order_by";
+    $results = $wpdb->get_results($sql);
     ob_start();
-    if ($query->have_posts()) :
+    if ($results) {
         $delay = 200;
-        while ($query->have_posts()) : $query->the_post();
-            $image_url = has_post_thumbnail()
-                ? get_the_post_thumbnail_url(get_the_ID(), 'large')
+        foreach ($results as $row) {
+            $image_url = has_post_thumbnail($row->ID)
+                ? get_the_post_thumbnail_url($row->ID, 'large')
                 : get_template_directory_uri() . '/assets/images/default-location.png';
-            $phone   = get_post_meta(get_the_ID(), 'number', true);
-            $email   = get_post_meta(get_the_ID(), 'email', true);
-            $address = get_post_meta(get_the_ID(), 'location', true);
-            $timing  = get_post_meta(get_the_ID(), 'timing', true);
+            $phone   = get_post_meta($row->ID, 'number', true);
+            $email   = get_post_meta($row->ID, 'email', true);
+            $address = get_post_meta($row->ID, 'location', true);
+            $timing  = get_post_meta($row->ID, 'timing', true);
 ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="<?php echo esc_attr($delay); ?>">
                 <div class="card location-card text-white">
-                    <img src="<?php echo esc_url($image_url); ?>" class="card-img" alt="<?php the_title(); ?>" />
+                    <img src="<?php echo esc_url($image_url); ?>" class="card-img" alt="<?php echo esc_attr($row->post_title); ?>" />
                     <div class="card-img-overlay">
-                        <h4 class="fw-bold"><?php the_title(); ?></h4>
+                        <h4 class="fw-bold"><?php echo esc_html($row->post_title); ?></h4>
                         <?php if ($phone) : ?><p><i class="fas fa-phone me-2"></i><?php echo esc_html($phone); ?></p><?php endif; ?>
                         <?php if ($email) : ?><p><i class="fas fa-envelope me-2"></i><?php echo esc_html($email); ?></p><?php endif; ?>
                         <?php if ($address) : ?><p><i class="fas fa-map-marker-alt me-2"></i><?php echo esc_html($address); ?></p><?php endif; ?>
@@ -345,20 +354,20 @@ function custom_location_search()
             </div>
         <?php
             $delay += 100;
-        endwhile;
-    else :
+        }
+    } else {
         echo '<p>No locations found.</p>';
-    endif;
-    wp_reset_postdata();
+    }
     $html = ob_get_clean();
     wp_send_json([
         'success' => true,
         'html'    => $html,
     ]);
 }
-
-add_action('wp_ajax_nopriv_custom_location_search', 'custom_location_search');
 add_action('wp_ajax_custom_location_search', 'custom_location_search');
+add_action('wp_ajax_nopriv_custom_location_search', 'custom_location_search');
+
+
 
 function custom_currency_search()
 {

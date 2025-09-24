@@ -58,7 +58,7 @@
                     $icon_id = get_post_meta(get_the_ID(), 'icon', true);
                     $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : get_template_directory_uri() . '/assets/images/setting_Icon.png';
                     $excerpt = wp_trim_words(get_the_excerpt(), 50, '...');
-                    ?>
+            ?>
                     <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="<?php echo $delay; ?>">
                         <div class="service-card">
                             <div class="mb-4">
@@ -73,7 +73,7 @@
                             </button>
                         </div>
                     </div>
-                    <?php
+            <?php
                     $delay += 100;
                 endwhile;
                 wp_reset_postdata();
@@ -149,7 +149,7 @@
                                     } else {
                                         $change_rate = '0%';
                                     }
-                                    ?>
+                            ?>
                                     <tr>
                                         <td><strong><?php the_title(); ?></strong></td>
                                         <td class="d-none d-md-table-cell"><strong><?php echo esc_html($country); ?></strong>
@@ -168,7 +168,7 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <?php
+                            <?php
                                 endwhile;
                                 wp_reset_postdata();
                             else:

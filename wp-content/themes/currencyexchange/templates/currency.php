@@ -19,34 +19,33 @@ get_header();
     <section class="currency-table-custom">
         <div class="container">
             <div class="row align-items-center g-2 search-section mb-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-  
-  <!-- Reset Button -->
-  <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
-    <button type="button" id="reset-currency-button" class="btn btn-success d-flex align-items-center justify-content-center">
-      <i class="fas fa-sync-alt me-1"></i> Reset
-    </button>
-  </div>
 
-  <!-- Search Input (50%) -->
-  <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
-    <input type="text" class="form-control" id="search_currency" placeholder="Search currencies..." />
-  </div>
+                <!-- Reset Button -->
+                <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
+                    <button type="button" id="reset-currency-button" class="btn btn-success d-flex align-items-center justify-content-center">
+                        <i class="fas fa-sync-alt me-1"></i> Reset
+                    </button>
+                </div>
 
-  <!-- Spacer to push filter to end -->
-  <div class="col"></div>
+                <!-- Search Input (50%) -->
+                <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
+                    <input type="text" class="form-control" id="search_currency" placeholder="Search currencies..." />
+                </div>
 
-  <!-- Sort Select (at the end) -->
-  <div class="col-auto" data-aos="fade-left" data-aos-duration="800">
-    <select class="form-select" id="currency-sort-options">
-      <option value="">Filter By</option>
-      <option value="asc">A to Z</option>
-      <option value="desc">Z to A</option>
-      <option value="oldest">Oldest</option>
-      <option value="latest">Latest</option>
-    </select>
-  </div>
+                <!-- Spacer to push filter to end -->
+                <div class="col"></div>
 
-</div>
+                <!-- Sort Select (at the end) -->
+                <div class="col-auto" data-aos="fade-left" data-aos-duration="800">
+                    <select class="form-select" id="currency-sort-options">
+                        <option value="">Filter By</option>
+                        <option value="asc">A to Z</option>
+                        <option value="desc">Z to A</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="latest">Latest</option>
+                    </select>
+                </div>
+            </div>
 
 
             <div class="row justify-content-center">
@@ -107,11 +106,12 @@ get_header();
                                         } else {
                                             $change_rate = '0%';
                                         }
-                                        ?>
+                                ?>
                                         <tr>
                                             <td><strong><?php the_title(); ?></strong></td>
                                             <td class="d-none d-md-table-cell">
-                                                <strong><?php echo esc_html($country); ?></strong></td>
+                                                <strong><?php echo esc_html($country); ?></strong>
+                                            </td>
                                             <td><?php echo esc_html($current_price); ?></td>
                                             <td class="<?php echo esc_attr($change_class); ?>">
                                                 <?php echo esc_html($change_rate); ?></td>
@@ -126,7 +126,7 @@ get_header();
                                                 </button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                     endwhile;
                                     wp_reset_postdata();
                                 else:
