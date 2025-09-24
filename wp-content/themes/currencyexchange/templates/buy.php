@@ -4,13 +4,13 @@ get_header();
 if (isset($_GET['data'])) {
     $decoded = base64_decode($_GET['data']);
     parse_str($decoded, $params);
-    $post_id       = intval($params['isds']);
-    $title         = get_the_title($post_id);
+    $post_id = intval($params['isds']);
+    $title = get_the_title($post_id);
     $current_price = floatval(get_post_meta($post_id, 'current_price', true));
-    $change_rate   = floatval(get_post_meta($post_id, 'change_rate', true));
-    $currancy      = get_post_meta($post_id, 'currency', true);
+    $change_rate = floatval(get_post_meta($post_id, 'change_rate', true));
+    $currancy = get_post_meta($post_id, 'currency', true);
     $currency_symbol = get_currency_symbol($currancy);
-    $key_id     = get_option('stripe_live_key_id');
+    $key_id = get_option('stripe_live_key_id');
     $key_secret = get_option('stripe_live_key_secret');
 }
 ?>
@@ -53,8 +53,27 @@ if (isset($_GET['data'])) {
 
     .delivery-option:hover {
         background: #136e1fff;
+        color: #fff;
         border-color: #ccc;
     }
+
+    .location-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+        border: 2px solid #aca900ff !important;
+        background: #218838;
+        color: #fff;
+
+    }
+    .location-card.selected {
+    border: 2px solid #ffcc00 !important; /* Highlight border color */
+    background-color: #218838 !important; /* Optional: change background */
+    color: #fff !important;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
 
     .modal-header {
         background-color: #f7f7f7;
@@ -143,8 +162,8 @@ if (isset($_GET['data'])) {
 </section>
 
 <?php
-if (! is_user_logged_in()) {
-?>
+if (!is_user_logged_in()) {
+    ?>
     <div class="main-sections">
         <section class="currency-table-custom">
             <div class="container text-center">
@@ -157,7 +176,7 @@ if (! is_user_logged_in()) {
             </div>
         </section>
     </div>
-<?php
+    <?php
     get_footer();
     exit;
 }
@@ -189,33 +208,42 @@ if (! is_user_logged_in()) {
             </div>
             <div class="mb-4 d-flex justify-content-between align-items-center">
                 <label class="form-label">Total Amount</label>
-                <span class="total-amount fw-bold" id="totalAmount" data-currency="<?php echo esc_attr($currency_symbol); ?>">0</span>
+                <span class="total-amount fw-bold" id="totalAmount"
+                    data-currency="<?php echo esc_attr($currency_symbol); ?>">0</span>
             </div>
             <div class="extra-options text-start">
                 <div class="row g-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#deliveryModal">
+                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                            data-bs-target="#deliveryModal">
                             Select Delivery Mode
                         </button>
-                        <input type="text" id="deliveryModeInput" class="form-control mt-2 mb-3" placeholder="No delivery mode selected" readonly>
+                        <input type="text" id="deliveryModeInput" class="form-control mt-2 mb-3"
+                            placeholder="No delivery mode selected" readonly>
                     </div>
                     <div class="col-6">
-                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#storeModal">
+                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                            data-bs-target="#storeModal">
                             Nearby Store
                         </button>
-                        <input type="text" id="storeInput" class="form-control mt-2 mb-3" placeholder="No store selected" readonly>
+                        <input type="text" id="storeInput" class="form-control mt-2 mb-3"
+                            placeholder="No store selected" readonly>
                     </div>
                     <div class="col-6">
-                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#addressModal">
+                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                            data-bs-target="#addressModal">
                             Select Address
                         </button>
-                        <input type="text" id="addressInput" class="form-control mt-2 mb-3" placeholder="No address selected" readonly>
+                        <input type="text" id="addressInput" class="form-control mt-2 mb-3"
+                            placeholder="No address selected" readonly>
                     </div>
                     <div class="col-6">
-                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                        <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal"
+                            data-bs-target="#paymentModal">
                             Payment Mode
                         </button>
-                        <input type="text" id="paymentInput" class="form-control mt-2" placeholder="No payment mode selected" readonly>
+                        <input type="text" id="paymentInput" class="form-control mt-2"
+                            placeholder="No payment mode selected" readonly>
                     </div>
                 </div>
             </div>
@@ -261,39 +289,42 @@ if (! is_user_logged_in()) {
                     Select your preferred store from the list below.
                 </p>
                 <div class="mb-4 d-flex justify-content-center">
-                    <input type="text" class="form-control w-75" id="location-search-input" placeholder="Search for locations...">
+                    <input type="text" class="form-control w-75" id="location-search-input"
+                        placeholder="Search for locations...">
                 </div>
                 <div class="row g-3">
                     <?php
                     $args = array(
-                        'post_type'      => 'locations',
+                        'post_type' => 'locations',
                         'posts_per_page' => -1,
-                        'post_status'    => 'publish',
+                        'post_status' => 'publish',
                     );
                     $query = new WP_Query($args);
-                    if ($query->have_posts()) :
+                    if ($query->have_posts()):
                         $delay = 100;
-                        while ($query->have_posts()) : $query->the_post();
+                        while ($query->have_posts()):
+                            $query->the_post();
                             $image_url = has_post_thumbnail()
                                 ? get_the_post_thumbnail_url(get_the_ID(), 'medium')
                                 : get_template_directory_uri() . '/assets/images/default-location.png';
                             $address = get_post_meta(get_the_ID(), 'location', true);
-                    ?>
+                            ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-6 location-card-wrapper"
-                                data-store-id="<?php the_ID(); ?>"
-                                data-store-name="<?php the_title(); ?>">
+                                data-store-id="<?php the_ID(); ?>" data-store-name="<?php the_title(); ?>">
                                 <div class="card location-card shadow-sm border-0 h-100 text-center" style="cursor:pointer;">
-                                    <img src="<?php echo esc_url($image_url); ?>" class="card-img-top" alt="<?php the_title(); ?>" style="height:120px; object-fit:cover;">
+                                    <img src="<?php echo esc_url($image_url); ?>" class="card-img-top"
+                                        alt="<?php the_title(); ?>" style="height:120px; object-fit:cover;">
                                     <div class="card-body p-2">
                                         <h6 class="card-title fw-bold mb-1"><?php the_title(); ?></h6>
-                                        <?php if ($address) : ?><p class="mb-0 small text-muted"><?php echo esc_html($address); ?></p><?php endif; ?>
+                                        <?php if ($address): ?>
+                                            <p class="mb-0 small"><?php echo esc_html($address); ?></p><?php endif; ?>
                                     </div>
                                 </div>
                             </div>
-                    <?php
+                            <?php
                             $delay += 50;
                         endwhile;
-                    else :
+                    else:
                         echo '<p class="text-center text-muted">No locations found.</p>';
                     endif;
                     wp_reset_postdata();
@@ -383,7 +414,7 @@ if (! is_user_logged_in()) {
 <input type="hidden" id="changeRate" value="<?php echo esc_attr($change_rate); ?>">
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    jQuery(document).ready(function($) {
+    jQuery(document).ready(function ($) {
         let total = 0;
 
         function updateTotal() {
@@ -397,27 +428,27 @@ if (! is_user_logged_in()) {
             $("#totalAmount").text(currencySymbol + withsymbol.toFixed(2));
         }
         updateTotal();
-        $("#btnPlus").on("click", function() {
+        $("#btnPlus").on("click", function () {
             let q = parseInt($("#quantity").val()) || 0;
             $("#quantity").val(q + 1);
             updateTotal();
         });
-        $("#btnMinus").on("click", function() {
+        $("#btnMinus").on("click", function () {
             let q = parseInt($("#quantity").val()) || 0;
             if (q > 1) {
                 $("#quantity").val(q - 1);
                 updateTotal();
             }
         });
-        $("#quantity").on("input", function() {
+        $("#quantity").on("input", function () {
             updateTotal();
         });
-        $(".delivery-option").on("click", function() {
+        $(".delivery-option").on("click", function () {
             var value = $(this).data("value");
             $("#deliveryModeInput").val(value);
             $("#deliveryModal").modal("hide");
         });
-        $(".location-card-wrapper").on("click", function() {
+        $(".location-card-wrapper").on("click", function () {
             var storeName = $(this).data("store-name");
             var storeId = $(this).data("store-id");
             $("#storeInput").val(storeName);
@@ -441,7 +472,7 @@ if (! is_user_logged_in()) {
                 data: {
                     action: "get_user_addresses"
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         $("#addressList").empty();
                         response.data.forEach((addr, index) => {
@@ -463,7 +494,7 @@ if (! is_user_logged_in()) {
             });
         }
 
-        $(document).on("click", ".address-card", function() {
+        $(document).on("click", ".address-card", function () {
             let addressObj = $(this).data("address");
             let fullAddress = '';
             if (typeof addressObj === "object") {
@@ -482,13 +513,13 @@ if (! is_user_logged_in()) {
             $("#addressModal").modal("hide");
         });
 
-        $("#addNewAddress").on("click", function() {
+        $("#addNewAddress").on("click", function () {
             $("#newAddressForm").removeClass("d-none");
             $("#addressList").addClass("d-none");
             $(this).addClass("d-none");
         });
 
-        $("#saveNewAddress").on("click", function() {
+        $("#saveNewAddress").on("click", function () {
             let name = $("#nameInput").val();
             let email = $("#emailInput").val();
             let address = $("#address_input").val();
@@ -507,7 +538,7 @@ if (! is_user_logged_in()) {
                     address,
                     phone
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         loadAddresses();
                         $("#newAddressForm").addClass("d-none");
@@ -518,13 +549,13 @@ if (! is_user_logged_in()) {
                         alert("Failed to save address.");
                     }
                 },
-                error: function() {
+                error: function () {
                     alert("There was an error saving the address.");
                 }
             });
         });
 
-        $('#addressModal').on('show.bs.modal', function() {
+        $('#addressModal').on('show.bs.modal', function () {
             $("#newAddressForm").addClass("d-none");
             $("#addressList").removeClass("d-none");
             $("#addNewAddress").removeClass("d-none");
@@ -532,13 +563,13 @@ if (! is_user_logged_in()) {
             loadAddresses();
         });
 
-        $(".select-payment-option").on("click", function() {
+        $(".select-payment-option").on("click", function () {
             var selectedPaymentMode = $(this).siblings("span").text();
             $("#paymentInput").val(selectedPaymentMode);
             $("#paymentModal").modal("hide");
         });
 
-        $(document).on("click", ".delete-address", function(e) {
+        $(document).on("click", ".delete-address", function (e) {
             e.stopPropagation();
 
             let index = $(this).data("index");
@@ -552,19 +583,19 @@ if (! is_user_logged_in()) {
                     action: "delete_user_address",
                     index: index
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         loadAddresses();
                     } else {
                         alert(response.data.message || "Failed to delete address.");
                     }
                 },
-                error: function() {
+                error: function () {
                     alert("There was an error deleting the address.");
                 }
             });
         });
-        $(".btn-buy").on("click", function() {
+        $(".btn-buy").on("click", function () {
             let price = total.toFixed(2);
             var deliveryMode = $("#deliveryModeInput").val();
             var storeId = $("#storeIdInput").val();
@@ -590,14 +621,14 @@ if (! is_user_logged_in()) {
                     payment_mode: paymentInput,
                     currency_id: currency_id
                 },
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         var order_id = response.data.order_id;
                         $.post(custom_ajax.ajax_url, {
                             action: 'create_stripe_session',
                             order_id: order_id,
                             security: custom_ajax.nonce
-                        }, function(session) {
+                        }, function (session) {
                             if (session.data.id) {
                                 var stripe = Stripe('<?php echo $key_id; ?>');
                                 stripe.redirectToCheckout({
@@ -611,7 +642,7 @@ if (! is_user_logged_in()) {
                         alert("Failed to save order.");
                     }
                 },
-                error: function() {
+                error: function () {
                     alert("There was an error saving the order.");
                 }
             });
@@ -619,4 +650,20 @@ if (! is_user_logged_in()) {
 
     });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const locationCards = document.querySelectorAll('.location-card');
+    locationCards.forEach(card => {
+        card.addEventListener('click', function () {
+            locationCards.forEach(c => c.classList.remove('selected'));
+            this.classList.add('selected');
+            const storeId = this.closest('.location-card-wrapper').dataset.storeId;
+            const storeName = this.closest('.location-card-wrapper').dataset.storeName;
+            console.log('Selected Store:', storeId, storeName);
+        });
+    });
+});
+</script>
+
 <?php get_footer(); ?>
