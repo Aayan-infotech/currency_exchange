@@ -49,7 +49,7 @@ $saved_country = $user_id ? get_user_meta($user_id, 'country', true) : '';
                     sort($countries);
                     ?>
                     <form class="d-flex me-3">
-                        <select class="form-select form-select-sm" id="userCountry" style="min-width: 150px;">
+                        <select class="form-select form-select-sm" id="userCountry">
                             <option value="">Select Country</option>
                             <?php foreach ($countries as $country) : ?>
                                 <option value="<?php echo esc_attr(strtolower($country)); ?>"
