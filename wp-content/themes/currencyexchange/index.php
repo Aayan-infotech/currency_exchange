@@ -94,7 +94,7 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="table-responsive" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                    <table class="table">
+                    <table class="table text-center">
                         <thead class="table-dark" style="font-style: italic">
                             <tr class="italic">
                                 <th>Currency</th>
@@ -157,12 +157,12 @@
                                         <td><?php echo esc_html($current_price); ?></td>
                                         <td class="<?php echo esc_attr($change_class); ?>"><?php echo esc_html($change_rate); ?>
                                         </td>
-                                        <td>
+                                        <td class="positive-change">
                                             <?php
                                             $params = 'isds=' . get_the_ID();
                                             $encoded_params = base64_encode($params);
                                             ?>
-                                            <button class="btn btn-buy"
+                                            <button class="btn btn-buy mt-0"
                                                 onclick="window.location.href='<?php echo esc_url(site_url('/buy?data=' . $encoded_params)); ?>'">
                                                 Buy
                                             </button>

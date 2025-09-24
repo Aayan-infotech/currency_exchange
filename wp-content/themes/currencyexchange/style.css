@@ -229,7 +229,7 @@ button.btn.btn-buy {
     background-color: #000000;
     color: white;
     border: none;
-    padding: 2px 40px;
+    padding: 5px 20px;
     border-radius: 4px;
     font-weight: 500;
     transition: all 0.3s ease;
