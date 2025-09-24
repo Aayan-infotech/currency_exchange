@@ -234,7 +234,10 @@ button.btn.btn-buy {
     font-weight: 500;
     transition: all 0.3s ease;
 }
-
+.location-card img {
+    filter: brightness(60%);
+    transition: 0.3s;
+}
 button.btn.btn-buy:hover {
     background-color: var(--primary-color);
     transform: scale(1.05);
