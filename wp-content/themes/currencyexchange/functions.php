@@ -436,13 +436,13 @@ function custom_currency_search()
                 <td class="d-none d-md-table-cell"><strong><?php echo esc_html($country); ?></strong></td>
                 <td><?php echo esc_html($current_price); ?></td>
                 <td class="<?php echo esc_attr($change_class); ?>"><?php echo esc_html($change_rate); ?></td>
-                <td>
+                <td class="positive-change">
                     <?php
                     $params = 'isds=' . get_the_ID();
                     $encoded_params = base64_encode($params);
                     ?>
                     <button
-                        class="btn btn-buy"
+                        class="btn btn-buy mt-0"
                         onclick="window.location.href='<?php echo esc_url(site_url('/buy?data=' . $encoded_params)); ?>'">
                         Buy
                     </button>

@@ -86,7 +86,7 @@
 </section>
 <section class="currency-table">
     <div class="container">
-        <div class="text-center mb-5">
+        <div class="text-center mb-1">
             <img src="<?php echo get_template_directory_uri(); ?>/assets/images/currencyexchange.png"
                 class="currency-exchange img-fluid" alt="Currency Exchange" data-aos="fade-up"
                 data-aos-duration="800" />
