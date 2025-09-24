@@ -14,7 +14,6 @@ if (isset($_GET['data'])) {
     $key_secret = get_option('stripe_live_key_secret');
 }
 ?>
-
 <style>
     .delivery-modal {
         border-radius: 20px;
@@ -230,6 +229,7 @@ if (! is_user_logged_in()) {
         <div class="modal-content delivery-modal">
             <div class="modal-header border-0">
                 <h4 class="modal-title w-100 text-center fw-bold">Select Delivery Mode</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <p class="text-muted mb-4">
