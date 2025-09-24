@@ -39,7 +39,10 @@ body {
     font-weight: 700;
     font-style: italic;
 }
-
+.navbar-brand:hover{
+    color: #fff !important;
+    transform: scale(1.05);
+}
 .navbar-custom .nav-link {
     color: var(--light-color);
     font-weight: 500;
@@ -443,7 +446,7 @@ button.btn.btn-services:hover {
 
 @media (max-width: 576px) {
     .navbar-brand {
-        font-size: 1rem;
+        font-size: 11px !important;
     }
 
     .currency-heading {
