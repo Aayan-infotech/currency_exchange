@@ -664,6 +664,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('location-search-input');
+    const storeCards = document.querySelectorAll('.location-card-wrapper');
+
+    searchInput.addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+
+        storeCards.forEach(card => {
+            const storeName = card.dataset.storeName.toLowerCase();
+            const storeAddress = card.querySelector('.card-body p') 
+                ? card.querySelector('.card-body p').textContent.toLowerCase()
+                : '';
+
+            if (storeName.includes(query) || storeAddress.includes(query)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
 </script>
 
 <?php get_footer(); ?>
