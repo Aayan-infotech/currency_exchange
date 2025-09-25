@@ -4,8 +4,7 @@
         position: relative;
         background:
             linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-            /* dark gradient overlay */
-            url(http://localhost/currency_exchange/wp-content/themes/currencyexchange/assets/images/homesection.gif) no-repeat center center / cover;
+            url('<?php echo site_url(); ?>/wp-content/themes/currencyexchange/assets/images/homesection.gif') no-repeat center center / cover;
         height: 100vh;
         color: white;
         display: flex;
