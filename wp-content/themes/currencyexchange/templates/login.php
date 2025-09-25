@@ -22,7 +22,7 @@ print_r($secret_key);
                     <small class="error-message text-danger"></small>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="form-label"> hello Password</label>
+                    <label for="password" class="form-label">Password</label>
                     <div class="password-input-group">
                         <input type="password" class="form-control" id="password" placeholder="Password" />
                         <span class="password-toggle" id="loginpasswordToggle">
