@@ -1,7 +1,7 @@
 <div>
     <?php wp_footer(); ?>
 </div>
-<footer class="mt-5" style="background: #f3f3f3;">
+<footer class="pt-5" style="background: #f3f3f3;">
     <div class="container">
         <div class="row">
             <div class="row">
