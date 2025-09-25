@@ -42,7 +42,8 @@ get_header(); ?>
                     </div>
                     <small class="error-message text-danger"></small>
                 </div>
-                <div class="auth-footer text-center">
+                <div class="g-recaptcha" data-sitekey="6LeJ-NMrAAAAABlzKCaiLWKLvK6oAnSyDHMgdhLc"></div>
+                <div class="auth-footer text-center mt-2">
                     <button type="submit" class="btn btn-success auth-btn mb-1">Sign Up</button>
                     <p>Already have an account? <a href="<?php echo site_url('/login'); ?>" class="auth-link text-black">Login</a></p>
                 </div>

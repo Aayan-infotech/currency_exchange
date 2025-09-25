@@ -121,6 +121,11 @@ jQuery(document).ready(function ($) {
             showError(confirm_password, "Passwords do not match.");
             valid = false;
         }
+        let captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            Swal.fire("Error", "Please complete the captcha.", "error");
+            valid = false;
+        }
         if (!valid) return;
         let formData = {
             action: "custom_user_registration",
@@ -129,7 +134,8 @@ jQuery(document).ready(function ($) {
             email: email.val(),
             number: number.val(),
             password: password.val(),
-            confirm_password: confirm_password.val()
+            confirm_password: confirm_password.val(),
+            "g-recaptcha-response": grecaptcha.getResponse()
         };
         $.ajax({
             url: custom_ajax.ajax_url,
@@ -146,10 +152,12 @@ jQuery(document).ready(function ($) {
                     });
                 } else {
                     Swal.fire("Error", response.message, "error");
+                    grecaptcha.reset();
                 }
             },
             error: function () {
                 Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                grecaptcha.reset();
             },
             complete: function () {
                 $("#loaderOverlay").fadeOut(300);

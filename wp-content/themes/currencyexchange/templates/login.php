@@ -34,7 +34,7 @@ get_header();
                     </div>
                 </div>
                 <div class="g-recaptcha" data-sitekey="6LeJ-NMrAAAAABlzKCaiLWKLvK6oAnSyDHMgdhLc"></div>
-                <div class="auth-footer text-center">
+                <div class="auth-footer text-center mt-2">
                     <button type="submit" class="btn btn-success auth-btn mb-1">Login</button>
                     <p>Doesn't have an account? <a href="<?php echo site_url(); ?>/signup" class="auth-link text-black">Sign up</a></p>
                 </div>
