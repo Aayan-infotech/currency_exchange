@@ -186,7 +186,8 @@ if (isset($_GET['data'])) {
                         <option><?php echo strtoupper($currancy); ?></option>
                     </select>
                 </div>
-            </div>
+            </div>    
+            
             <div class="mb-4 d-flex justify-content-between align-items-center">
                 <label class="form-label">Total Amount</label>
                 <span class="total-amount fw-bold" id="totalAmount"
