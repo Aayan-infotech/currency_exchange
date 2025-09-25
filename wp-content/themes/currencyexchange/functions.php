@@ -181,6 +181,23 @@ function custom_user_registration_handler()
     if (email_exists($email) || username_exists($email)) {
         wp_send_json(['success' => false, 'message' => 'Email already registered.']);
     }
+    if (empty($_POST['captcha'])) {
+        wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
+    }
+    $response = sanitize_text_field($_POST['captcha']);
+    $remoteip = $_SERVER['REMOTE_ADDR'];
+    $secret_key = RECAPTCHA_SECRET_KEY;
+
+    $verify   = wp_remote_get(
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
+    );
+
+    $verified = json_decode(wp_remote_retrieve_body($verify));
+
+    if (empty($verified->success)) {
+        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
+    }
+
     $username = sanitize_user(current(explode('@', $email)), true);
     if (username_exists($username)) {
         $username .= rand(1000, 9999);
@@ -214,9 +231,8 @@ function custom_user_login()
     }
     $response = sanitize_text_field($_POST['captcha']);
     $remoteip = $_SERVER['REMOTE_ADDR'];
-    $site_key = RECAPTCHA_SITE_KEY;
     $secret_key = RECAPTCHA_SECRET_KEY;
-    
+
     $verify   = wp_remote_get(
         "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
     );
@@ -275,6 +291,22 @@ function custom_send_otp()
     $user = get_user_by('email', $email);
     if (!$user) {
         wp_send_json(['success' => false, 'message' => 'No user found with this email.']);
+    }
+    if (empty($_POST['captcha'])) {
+        wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
+    }
+    $response = sanitize_text_field($_POST['captcha']);
+    $remoteip = $_SERVER['REMOTE_ADDR'];
+    $secret_key = RECAPTCHA_SECRET_KEY;
+
+    $verify   = wp_remote_get(
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
+    );
+
+    $verified = json_decode(wp_remote_retrieve_body($verify));
+
+    if (empty($verified->success)) {
+        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
     }
     $otp = rand(100000, 999999);
     update_user_meta($user->ID, '_reset_password_otp', $otp);

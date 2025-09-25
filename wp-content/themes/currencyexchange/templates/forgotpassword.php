@@ -1,6 +1,7 @@
 <?php
 // Template Name: Forgot Password
 get_header();
+$site_key   = RECAPTCHA_SITE_KEY;
 ?>
 <!-- Hero Section -->
 <section class="hero" style="padding-top: 80px">
@@ -45,7 +46,7 @@ get_header();
                     <input type="password" class="form-control" id="new-password" placeholder="Enter new password" />
                     <small class="error-message text-danger"></small>
                 </div>
-
+                <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
                 <div class="auth-footer text-center">
                     <button type="submit" class="btn btn-success auth-btn mb-4" id="send-otp-btn">Send OTP</button>
                     <button type="button" class="btn btn-success auth-btn" id="reset-password-btn" style="display:none;">Reset Password</button>

@@ -136,7 +136,7 @@ jQuery(document).ready(function ($) {
             number: number.val(),
             password: password.val(),
             confirm_password: confirm_password.val(),
-            "g-recaptcha-response": grecaptcha.getResponse()
+            captcha: captchaResponse
         };
         $.ajax({
             url: custom_ajax.ajax_url,
@@ -183,7 +183,7 @@ jQuery(document).ready(function ($) {
     });
 
     $("#loginForm").on("submit", function (e) {
-        
+
         e.preventDefault();
 
         let valid = true;
@@ -279,13 +279,20 @@ jQuery(document).ready(function ($) {
             showError(email, 'Enter a valid email address.');
             return;
         }
+        let captchaResponse = grecaptcha.getResponse();
+
+        if (!captchaResponse) {
+            Swal.fire("Error", "Please complete the captcha.", "error");
+            valid = false;
+        }
         $.ajax({
             url: custom_ajax.ajax_url,
             type: 'POST',
             data: {
                 action: 'custom_send_otp',
                 email: emailVal,
-                security: custom_ajax.nonce
+                security: custom_ajax.nonce,
+                captcha: captchaResponse
             },
             dataType: 'json',
             beforeSend: function () {
@@ -298,10 +305,12 @@ jQuery(document).ready(function ($) {
                     $('#send-otp-btn').hide();
                 } else {
                     Swal.fire('Error', response.message, 'error');
+                    grecaptcha.reset();
                 }
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong.', 'error');
+                grecaptcha.reset();
             },
             complete: function () {
                 $("#loaderOverlay").fadeOut(300);

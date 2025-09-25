@@ -1,6 +1,8 @@
 <?php
 // Template Name: SignUp
-get_header(); ?>
+get_header();
+$site_key   = RECAPTCHA_SITE_KEY;
+?>
 <section class="main-sections">
     <div class="auth-container">
         <div class="auth-card" data-aos="fade-up" data-aos-duration="800">
@@ -42,7 +44,7 @@ get_header(); ?>
                     </div>
                     <small class="error-message text-danger"></small>
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LeJ-NMrAAAAABlzKCaiLWKLvK6oAnSyDHMgdhLc"></div>
+                <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
                 <div class="auth-footer text-center mt-2">
                     <button type="submit" class="btn btn-success auth-btn mb-1">Sign Up</button>
                     <p>Already have an account? <a href="<?php echo site_url('/login'); ?>" class="auth-link text-black">Login</a></p>
