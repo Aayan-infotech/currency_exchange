@@ -595,6 +595,10 @@ if (isset($_GET['data'])) {
             });
         });
         $(".btn-buy").on("click", function() {
+            if (!custom_ajax.is_logged_in) {
+                window.location.href = custom_ajax.login_url;
+                return;
+            }
             let price = total.toFixed(2);
             var deliveryMode = $("#deliveryModeInput").val();
             var storeId = $("#storeIdInput").val();
@@ -604,11 +608,6 @@ if (isset($_GET['data'])) {
 
             if (!price || !deliveryMode || !storeId || !addressInput || !paymentInput) {
                 alert("Please fill all option!");
-                return;
-            }
-
-            if (!custom_ajax.is_logged_in) {
-                window.location.href = custom_ajax.login_url;
                 return;
             }
 
