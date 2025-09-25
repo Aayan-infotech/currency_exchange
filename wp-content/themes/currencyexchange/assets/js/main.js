@@ -330,6 +330,11 @@ jQuery(document).ready(function ($) {
             Swal.fire('Error', 'Password must be at least 6 characters.', 'error');
             return;
         }
+        let captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            Swal.fire("Error", "Please complete the captcha.", "error");
+            valid = false;
+        }
         $.ajax({
             url: custom_ajax.ajax_url,
             type: 'POST',
@@ -338,7 +343,8 @@ jQuery(document).ready(function ($) {
                 email: emailVal,
                 otp: otpVal,
                 password: passwordVal,
-                security: custom_ajax.nonce
+                security: custom_ajax.nonce,
+                captcha: captchaResponse
             },
             dataType: 'json',
             beforeSend: function () {
@@ -351,10 +357,12 @@ jQuery(document).ready(function ($) {
                     });
                 } else {
                     Swal.fire('Error', response.message, 'error');
+                    grecaptcha.reset();
                 }
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong.', 'error');
+                grecaptcha.reset();
             },
             complete: function () {
                 $("#loaderOverlay").fadeOut(300);
