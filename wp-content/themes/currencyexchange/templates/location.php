@@ -24,17 +24,17 @@
                 data-aos-delay="300">
 
                 <!-- Reset Button -->
-                <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
+                <!-- <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
                     <button type="button" id="reset-button"
                         class="btn btn-success d-flex align-items-center justify-content-center">
                         <i class="fas fa-sync-alt me-1"></i> Reset
                     </button>
-                </div>
+                </div> -->
 
                 <!-- Search Input (50%) -->
                 <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
                     <input type="text" class="form-control" id="location-search-input"
-                        placeholder="Search for locations..."/>
+                        placeholder="Search for locations..." />
                 </div>
 
                 <!-- Spacer to push filter to end -->
@@ -75,7 +75,7 @@
                     $email = get_post_meta(get_the_ID(), 'email', true);
                     $address = get_post_meta(get_the_ID(), 'location', true);
                     $timing = get_post_meta(get_the_ID(), 'timing', true);
-                    ?>
+            ?>
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800"
                         data-aos-delay="<?php echo esc_attr($delay); ?>">
                         <div class="card location-card text-white">
@@ -94,7 +94,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php
+                <?php
                     $delay += 100;
                 endwhile;
                 $total_pages = $query->max_num_pages;
@@ -122,7 +122,7 @@
                             </ul>
                         </nav>
                     </div>
-                <?php endif;
+            <?php endif;
             else:
                 echo '<p>No locations found.</p>';
             endif;
