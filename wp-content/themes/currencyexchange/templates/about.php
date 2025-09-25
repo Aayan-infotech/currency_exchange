@@ -6,7 +6,7 @@
     <div class="container text-center">
         <div class="row gx-1">
             <div class="col">
-                <h1 class="aboutus-heading" data-aos="fade-down" data-aos-duration="1000">About US</h1>
+                <h1 class="aboutus-heading" data-aos="fade-down" data-aos-duration="1000">About Us</h1>
                 <p class="lead mt-3 fw-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.
                 </p>
@@ -27,7 +27,7 @@
             <div class="col-md-6 mt-4" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                 <div class="">
                     <h3 class="fw-bold">About the company</h3>
-                    <p>
+                    <p class="align-items-justify">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
                         dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis
                         natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus
