@@ -8,10 +8,11 @@ use \Stripe\Checkout\Session;
 
 require_once get_template_directory() . '/stripe/vendor/autoload.php';
 \Stripe\Stripe::setApiKey($key_secret);
-
 $order_id   = intval($_GET['order_id']);
-$session_id = sanitize_text_field($_GET['session_id']);
-if (!$session_id) {
+$order_id   = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+$session_id = isset($_GET['session_id']) ? sanitize_text_field($_GET['session_id']) : '';
+
+if (empty($session_id)) {
     update_post_meta($order_id, 'status', 'Failed');
 }
 
@@ -20,18 +21,15 @@ $paid_amount = 0;
 $currency    = '';
 $transaction = '';
 $customer_email = '';
-
-if ($order_id && $session_id) {
+if ($order_id && !empty($session_id)) {
     try {
         $session = \Stripe\Checkout\Session::retrieve($session_id);
-
         if ($session->payment_status === 'paid') {
             $status        = 'success';
             $paid_amount   = $session->amount_total / 100;
             $currency      = strtoupper($session->currency);
             $transaction   = $session->payment_intent;
             $customer_email = $session->customer_email ?? '';
-
             update_post_meta($order_id, 'status', 'Processing');
             update_post_meta($order_id, 'transaction_id', $transaction);
             update_post_meta($order_id, 'paid_amount', $paid_amount);
@@ -63,7 +61,6 @@ $card_class = $status_classes[$status] ?? $status_classes['error'];
                     <p><strong>Order ID:</strong> <?php echo esc_html($order_id); ?></p>
                     <p><strong>Transaction ID:</strong> <?php echo esc_html($transaction); ?></p>
                     <p><strong>Paid Amount:</strong> <?php echo esc_html(number_format($paid_amount, 2)); ?> <?php echo esc_html($currency); ?></p>
-                    <p><strong>Customer Email:</strong> <?php echo esc_html($customer_email); ?></p>
                 <?php elseif ($status === 'failed') : ?>
                     <p>Unfortunately, your payment was not successful. Please try again.</p>
                 <?php elseif ($status === 'error') : ?>

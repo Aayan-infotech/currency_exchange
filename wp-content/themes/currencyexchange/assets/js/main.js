@@ -136,6 +136,9 @@ jQuery(document).ready(function ($) {
             type: "POST",
             data: formData,
             dataType: "json",
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     Swal.fire("Success", response.message, "success").then(() => {
@@ -147,6 +150,9 @@ jQuery(document).ready(function ($) {
             },
             error: function () {
                 Swal.fire("Error", "Something went wrong. Please try again.", "error");
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
             }
         });
     });
@@ -169,11 +175,13 @@ jQuery(document).ready(function ($) {
 
     $("#loginForm").on("submit", function (e) {
         e.preventDefault();
+
         let valid = true;
         let email = $("#email");
         let password = $("#password");
         let remember = $("#rememberMe").is(":checked");
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         if (!email.val().trim()) {
             showError(email, "Email is required.");
             valid = false;
@@ -185,19 +193,33 @@ jQuery(document).ready(function ($) {
             showError(password, "Password must be at least 6 characters.");
             valid = false;
         }
+
+        let captchaResponse = grecaptcha.getResponse();
+        if (!captchaResponse) {
+            Swal.fire("Error", "Please complete the captcha.", "error");
+            valid = false;
+        }
+
         if (!valid) return;
+
         let formData = {
             action: "custom_user_login",
             security: custom_ajax.nonce,
             email: email.val(),
             password: password.val(),
-            remember: remember
+            remember: remember,
+            "g-recaptcha-response": grecaptcha.getResponse()
         };
+
+
         $.ajax({
             url: custom_ajax.ajax_url,
             type: "POST",
             data: formData,
             dataType: "json",
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     Swal.fire("Success", response.message, "success").then(() => {
@@ -205,13 +227,19 @@ jQuery(document).ready(function ($) {
                     });
                 } else {
                     Swal.fire("Error", response.message, "error");
+                    grecaptcha.reset();
                 }
             },
             error: function () {
                 Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                grecaptcha.reset();
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
             }
         });
     });
+
 
     function isValidEmail(email) {
         let pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
@@ -251,6 +279,9 @@ jQuery(document).ready(function ($) {
                 security: custom_ajax.nonce
             },
             dataType: 'json',
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     Swal.fire('Success', response.message, 'success');
@@ -262,7 +293,10 @@ jQuery(document).ready(function ($) {
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong.', 'error');
-            }
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
+            },
         });
     });
 
@@ -289,6 +323,9 @@ jQuery(document).ready(function ($) {
                 security: custom_ajax.nonce
             },
             dataType: 'json',
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     Swal.fire('Success', response.message, 'success').then(() => {
@@ -300,7 +337,10 @@ jQuery(document).ready(function ($) {
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong.', 'error');
-            }
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
+            },
         });
     });
 
@@ -317,6 +357,9 @@ jQuery(document).ready(function ($) {
                 security: custom_ajax.nonce
             },
             dataType: "json",
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     $(".location .row.g-4").html(response.html);
@@ -326,7 +369,10 @@ jQuery(document).ready(function ($) {
             },
             error: function () {
                 $(".location .row.g-4").html("<p>Something went wrong.</p>");
-            }
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
+            },
         });
     }
     $("#location-search-input").on("input", function () {
@@ -353,6 +399,9 @@ jQuery(document).ready(function ($) {
                 security: custom_ajax.nonce
             },
             dataType: "json",
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 if (response.success) {
                     $(".currency-table-custom tbody").html(response.html);
@@ -362,7 +411,10 @@ jQuery(document).ready(function ($) {
             },
             error: function () {
                 $(".currency-table-custom tbody").html('<tr><td colspan="5">Something went wrong.</td></tr>');
-            }
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
+            },
         });
     }
 
@@ -396,9 +448,15 @@ jQuery(document).ready(function ($) {
                 action: "update_user_country",
                 country: country,
             },
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
             success: function (response) {
                 console.log(response);
                 location.reload();
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
             },
         });
     });

@@ -49,6 +49,7 @@
                 'post_type' => 'services',
                 'posts_per_page' => 9,
                 'post_status' => 'publish',
+                'order'       => 'ASC'
             );
             $query = new WP_Query($args);
             if ($query->have_posts()):
@@ -67,10 +68,8 @@
                             </div>
                             <h3><?php the_title(); ?></h3>
                             <p><?php echo esc_html($excerpt); ?></p>
-                            <button class="btn btn-services">
-                                <a href="<?php the_permalink(); ?>" style="color: white;" class="text-decoration-none">Learn
-                                    More</a>
-                            </button>
+                            <a href="<?php the_permalink(); ?>" style="color: white;" class="text-decoration-none btn btn-services">Learn
+                                More</a>
                         </div>
                     </div>
             <?php

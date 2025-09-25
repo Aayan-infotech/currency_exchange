@@ -234,10 +234,12 @@ button.btn.btn-buy {
     font-weight: 500;
     transition: all 0.3s ease;
 }
+
 .location-card img {
     filter: brightness(60%);
     transition: 0.3s;
 }
+
 button.btn.btn-buy:hover {
     background-color: var(--primary-color);
     transform: scale(1.05);
@@ -265,11 +267,13 @@ footer {
     font-weight: 600;
     margin-bottom: 20px;
     font-size: 1.2rem;
+    text-align: justify;
 }
 
 .footer-links {
     list-style: none;
     padding: 0;
+    text-align: justify;
 }
 
 .footer-links li {
@@ -324,7 +328,7 @@ button.btn.btn-view-more.rounded-pill:hover {
     transform: translateY(-2px);
 }
 
-button.btn.btn-services {
+a.btn.btn-services {
     background-color: #000000;
     color: white;
     border: none;
@@ -335,7 +339,7 @@ button.btn.btn-services {
     transition: all 0.3s ease;
 }
 
-button.btn.btn-services:hover {
+a.btn.btn-services:hover {
     background-color: var(--primary-color);
     transform: translateY(-2px);
 }
@@ -666,4 +670,9 @@ button.btn.btn-services:hover {
 .btn-buy:hover {
     background: #174c16;
     color: #fff;
+}
+
+.navbar-nav .nav-item.active>a.nav-link {
+    color: #28a745 !important;
+    font-weight: bold;
 }

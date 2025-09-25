@@ -66,14 +66,17 @@ if (isset($_GET['data'])) {
         color: #fff;
 
     }
+
     .location-card.selected {
-    border: 2px solid #ffcc00 !important; /* Highlight border color */
-    background-color: #218838 !important; /* Optional: change background */
-    color: #fff !important;
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-}
+        border: 2px solid #ffcc00 !important;
+        /* Highlight border color */
+        background-color: #218838 !important;
+        /* Optional: change background */
+        color: #fff !important;
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
 
     .modal-header {
         background-color: #f7f7f7;
@@ -163,7 +166,7 @@ if (isset($_GET['data'])) {
 
 <?php
 if (!is_user_logged_in()) {
-    ?>
+?>
     <div class="main-sections">
         <section class="currency-table-custom">
             <div class="container text-center">
@@ -176,7 +179,7 @@ if (!is_user_logged_in()) {
             </div>
         </section>
     </div>
-    <?php
+<?php
     get_footer();
     exit;
 }
@@ -308,7 +311,7 @@ if (!is_user_logged_in()) {
                                 ? get_the_post_thumbnail_url(get_the_ID(), 'medium')
                                 : get_template_directory_uri() . '/assets/images/default-location.png';
                             $address = get_post_meta(get_the_ID(), 'location', true);
-                            ?>
+                    ?>
                             <div class="col-lg-2 col-md-3 col-sm-4 col-6 location-card-wrapper"
                                 data-store-id="<?php the_ID(); ?>" data-store-name="<?php the_title(); ?>">
                                 <div class="card location-card shadow-sm border-0 h-100 text-center" style="cursor:pointer;">
@@ -321,7 +324,7 @@ if (!is_user_logged_in()) {
                                     </div>
                                 </div>
                             </div>
-                            <?php
+                    <?php
                             $delay += 50;
                         endwhile;
                     else:
@@ -414,7 +417,7 @@ if (!is_user_logged_in()) {
 <input type="hidden" id="changeRate" value="<?php echo esc_attr($change_rate); ?>">
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    jQuery(document).ready(function ($) {
+    jQuery(document).ready(function($) {
         let total = 0;
 
         function updateTotal() {
@@ -428,27 +431,27 @@ if (!is_user_logged_in()) {
             $("#totalAmount").text(currencySymbol + withsymbol.toFixed(2));
         }
         updateTotal();
-        $("#btnPlus").on("click", function () {
+        $("#btnPlus").on("click", function() {
             let q = parseInt($("#quantity").val()) || 0;
             $("#quantity").val(q + 1);
             updateTotal();
         });
-        $("#btnMinus").on("click", function () {
+        $("#btnMinus").on("click", function() {
             let q = parseInt($("#quantity").val()) || 0;
             if (q > 1) {
                 $("#quantity").val(q - 1);
                 updateTotal();
             }
         });
-        $("#quantity").on("input", function () {
+        $("#quantity").on("input", function() {
             updateTotal();
         });
-        $(".delivery-option").on("click", function () {
+        $(".delivery-option").on("click", function() {
             var value = $(this).data("value");
             $("#deliveryModeInput").val(value);
             $("#deliveryModal").modal("hide");
         });
-        $(".location-card-wrapper").on("click", function () {
+        $(".location-card-wrapper").on("click", function() {
             var storeName = $(this).data("store-name");
             var storeId = $(this).data("store-id");
             $("#storeInput").val(storeName);
@@ -472,7 +475,10 @@ if (!is_user_logged_in()) {
                 data: {
                     action: "get_user_addresses"
                 },
-                success: function (response) {
+                beforeSend: function() {
+                    $("#loaderOverlay").fadeIn(300).css("display", "flex");
+                },
+                success: function(response) {
                     if (response.success) {
                         $("#addressList").empty();
                         response.data.forEach((addr, index) => {
@@ -490,11 +496,14 @@ if (!is_user_logged_in()) {
                             $("#addressList").append(card);
                         });
                     }
+                },
+                complete: function() {
+                    $("#loaderOverlay").fadeOut(300);
                 }
             });
         }
 
-        $(document).on("click", ".address-card", function () {
+        $(document).on("click", ".address-card", function() {
             let addressObj = $(this).data("address");
             let fullAddress = '';
             if (typeof addressObj === "object") {
@@ -513,13 +522,13 @@ if (!is_user_logged_in()) {
             $("#addressModal").modal("hide");
         });
 
-        $("#addNewAddress").on("click", function () {
+        $("#addNewAddress").on("click", function() {
             $("#newAddressForm").removeClass("d-none");
             $("#addressList").addClass("d-none");
             $(this).addClass("d-none");
         });
 
-        $("#saveNewAddress").on("click", function () {
+        $("#saveNewAddress").on("click", function() {
             let name = $("#nameInput").val();
             let email = $("#emailInput").val();
             let address = $("#address_input").val();
@@ -538,7 +547,10 @@ if (!is_user_logged_in()) {
                     address,
                     phone
                 },
-                success: function (response) {
+                beforeSend: function() {
+                    $("#loaderOverlay").fadeIn(300).css("display", "flex");
+                },
+                success: function(response) {
                     if (response.success) {
                         loadAddresses();
                         $("#newAddressForm").addClass("d-none");
@@ -549,13 +561,16 @@ if (!is_user_logged_in()) {
                         alert("Failed to save address.");
                     }
                 },
-                error: function () {
+                error: function() {
                     alert("There was an error saving the address.");
+                },
+                complete: function() {
+                    $("#loaderOverlay").fadeOut(300);
                 }
             });
         });
 
-        $('#addressModal').on('show.bs.modal', function () {
+        $('#addressModal').on('show.bs.modal', function() {
             $("#newAddressForm").addClass("d-none");
             $("#addressList").removeClass("d-none");
             $("#addNewAddress").removeClass("d-none");
@@ -563,13 +578,13 @@ if (!is_user_logged_in()) {
             loadAddresses();
         });
 
-        $(".select-payment-option").on("click", function () {
+        $(".select-payment-option").on("click", function() {
             var selectedPaymentMode = $(this).siblings("span").text();
             $("#paymentInput").val(selectedPaymentMode);
             $("#paymentModal").modal("hide");
         });
 
-        $(document).on("click", ".delete-address", function (e) {
+        $(document).on("click", ".delete-address", function(e) {
             e.stopPropagation();
 
             let index = $(this).data("index");
@@ -583,19 +598,25 @@ if (!is_user_logged_in()) {
                     action: "delete_user_address",
                     index: index
                 },
-                success: function (response) {
+                beforeSend: function() {
+                    $("#loaderOverlay").fadeIn(300).css("display", "flex");
+                },
+                success: function(response) {
                     if (response.success) {
                         loadAddresses();
                     } else {
                         alert(response.data.message || "Failed to delete address.");
                     }
                 },
-                error: function () {
+                error: function() {
                     alert("There was an error deleting the address.");
+                },
+                complete: function() {
+                    $("#loaderOverlay").fadeOut(300);
                 }
             });
         });
-        $(".btn-buy").on("click", function () {
+        $(".btn-buy").on("click", function() {
             let price = total.toFixed(2);
             var deliveryMode = $("#deliveryModeInput").val();
             var storeId = $("#storeIdInput").val();
@@ -621,14 +642,17 @@ if (!is_user_logged_in()) {
                     payment_mode: paymentInput,
                     currency_id: currency_id
                 },
-                success: function (response) {
+                beforeSend: function() {
+                    $("#loaderOverlay").fadeIn(300).css("display", "flex");
+                },
+                success: function(response) {
                     if (response.success) {
                         var order_id = response.data.order_id;
                         $.post(custom_ajax.ajax_url, {
                             action: 'create_stripe_session',
                             order_id: order_id,
                             security: custom_ajax.nonce
-                        }, function (session) {
+                        }, function(session) {
                             if (session.data.id) {
                                 var stripe = Stripe('<?php echo $key_id; ?>');
                                 stripe.redirectToCheckout({
@@ -642,8 +666,11 @@ if (!is_user_logged_in()) {
                         alert("Failed to save order.");
                     }
                 },
-                error: function () {
+                error: function() {
                     alert("There was an error saving the order.");
+                },
+                complete: function() {
+                    $("#loaderOverlay").fadeOut(300);
                 }
             });
         });
@@ -652,39 +679,39 @@ if (!is_user_logged_in()) {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const locationCards = document.querySelectorAll('.location-card');
-    locationCards.forEach(card => {
-        card.addEventListener('click', function () {
-            locationCards.forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-            const storeId = this.closest('.location-card-wrapper').dataset.storeId;
-            const storeName = this.closest('.location-card-wrapper').dataset.storeName;
-            console.log('Selected Store:', storeId, storeName);
+    document.addEventListener('DOMContentLoaded', function() {
+        const locationCards = document.querySelectorAll('.location-card');
+        locationCards.forEach(card => {
+            card.addEventListener('click', function() {
+                locationCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                const storeId = this.closest('.location-card-wrapper').dataset.storeId;
+                const storeName = this.closest('.location-card-wrapper').dataset.storeName;
+                console.log('Selected Store:', storeId, storeName);
+            });
         });
     });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('location-search-input');
-    const storeCards = document.querySelectorAll('.location-card-wrapper');
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('location-search-input');
+        const storeCards = document.querySelectorAll('.location-card-wrapper');
 
-    searchInput.addEventListener('input', function () {
-        const query = this.value.toLowerCase();
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
 
-        storeCards.forEach(card => {
-            const storeName = card.dataset.storeName.toLowerCase();
-            const storeAddress = card.querySelector('.card-body p') 
-                ? card.querySelector('.card-body p').textContent.toLowerCase()
-                : '';
+            storeCards.forEach(card => {
+                const storeName = card.dataset.storeName.toLowerCase();
+                const storeAddress = card.querySelector('.card-body p') ?
+                    card.querySelector('.card-body p').textContent.toLowerCase() :
+                    '';
 
-            if (storeName.includes(query) || storeAddress.includes(query)) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
+                if (storeName.includes(query) || storeAddress.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     });
-});
 </script>
 
 <?php get_footer(); ?>

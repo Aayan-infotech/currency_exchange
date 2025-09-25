@@ -79,6 +79,13 @@
         </div>
     </div>
 </footer>
+<div id="loaderOverlay">
+    <div class="loader-wrapper">
+        <img src="<?php echo get_template_directory_uri(); ?>
+        /assets/images/loader.gif" alt="Loading...">
+    </div>
+</div>
+
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 

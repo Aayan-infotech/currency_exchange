@@ -203,19 +203,41 @@ add_action('wp_ajax_custom_user_registration', 'custom_user_registration_handler
 
 function custom_user_login()
 {
-    if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')) {
+    if (
+        ! isset($_POST['security'])
+        || ! wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')
+    ) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
+    }
+
+    // ✅ Verify reCAPTCHA
+    if (empty($_POST['g-recaptcha-response'])) {
+        wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
+    }
+
+    $secret   = "6LeJ-NMrAAAAAAM4rcd__o4jvV-Awl1hYQctSP1p"; // replace with your Google reCAPTCHA secret key
+    $response = sanitize_text_field($_POST['g-recaptcha-response']);
+    $remoteip = $_SERVER['REMOTE_ADDR'];
+
+    $verify   = wp_remote_get(
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}&remoteip={$remoteip}"
+    );
+
+    $verified = json_decode(wp_remote_retrieve_body($verify));
+
+    if (empty($verified->success)) {
+        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
     }
     $email    = sanitize_email($_POST['email'] ?? '');
     $password = sanitize_text_field($_POST['password'] ?? '');
-    $remember = isset($_POST['remember']) && $_POST['remember'] === 'true' ? true : false;
+    $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
 
     if (empty($email) || empty($password)) {
         wp_send_json(['success' => false, 'message' => 'All fields are required.']);
     }
 
     $user = get_user_by('email', $email);
-    if (!$user) {
+    if (! $user) {
         wp_send_json(['success' => false, 'message' => 'Invalid email or password.']);
     }
 
@@ -234,10 +256,15 @@ function custom_user_login()
     wp_set_current_user($user_signon->ID);
     wp_set_auth_cookie($user_signon->ID, $remember);
 
-    wp_send_json(['success' => true, 'message' => 'Login successful!', 'redirect' => site_url('/account')]);
+    wp_send_json([
+        'success'  => true,
+        'message'  => 'Login successful!',
+        'redirect' => site_url('/account')
+    ]);
 }
 add_action('wp_ajax_nopriv_custom_user_login', 'custom_user_login');
 add_action('wp_ajax_custom_user_login', 'custom_user_login');
+
 
 // Handle AJAX Otp************************
 
@@ -374,11 +401,11 @@ function custom_currency_search()
     if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
-    $search = sanitize_text_field($_POST['search'] ?? '');
-    $sort   = sanitize_text_field($_POST['sort'] ?? '');
-    if (is_user_logged_in()) {
-        $user_id = get_current_user_id();
-        $country = get_user_meta($user_id, 'country', true);
+    $search  = sanitize_text_field($_POST['search'] ?? '');
+    $sort    = sanitize_text_field($_POST['sort'] ?? '');
+    $user_id = get_current_user_id();
+    $country = get_user_meta($user_id, 'country', true);
+    if (is_user_logged_in() && $country && strtolower($country) !== 'all') {
         $args = array(
             'post_type'      => 'currency',
             'posts_per_page' => -1,
@@ -1012,3 +1039,31 @@ function stripe_live_key_secret_field()
     $value = esc_attr(get_option('stripe_live_key_secret'));
     echo "<input type='text' name='stripe_live_key_secret' value='$value' class='regular-text'>";
 }
+
+
+function enqueue_recaptcha_script()
+{
+    wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js', [], null, true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_recaptcha_script');
+
+
+function restrict_wp_admin_access()
+{
+    global $pagenow;
+    if ($pagenow === 'wp-login.php' || (defined('DOING_AJAX') && DOING_AJAX)) {
+        return;
+    }
+    if (is_admin() && ! current_user_can('administrator')) {
+        status_header(404);
+        nocache_headers();
+        $template = get_query_template('404');
+        if ($template) {
+            include $template;
+        } else {
+            wp_die('You are not allowed to access this page.', 'Access Denied', array('response' => 404));
+        }
+        exit;
+    }
+}
+add_action('init', 'restrict_wp_admin_access');
