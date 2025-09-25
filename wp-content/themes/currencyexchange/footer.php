@@ -81,8 +81,7 @@
 </footer>
 <div id="loaderOverlay">
     <div class="loader-wrapper">
-        <img src="<?php echo get_template_directory_uri(); ?>
-        /assets/images/loader.gif" alt="Loading...">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets/images/loader.gif" alt="Loading...">
     </div>
 </div>
 
