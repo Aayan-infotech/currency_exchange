@@ -164,28 +164,6 @@ if (isset($_GET['data'])) {
     </div>
 </section>
 
-<?php
-if (!is_user_logged_in()) {
-?>
-    <div class="main-sections">
-        <section class="currency-table-custom">
-            <div class="container text-center">
-                <p class="lead mt-4 fw-bold" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                    Please log in to access the Buy Now page.
-                </p>
-                <a href="<?php echo site_url('/login'); ?>" class="btn btn-success mt-3">
-                    Log In
-                </a>
-            </div>
-        </section>
-    </div>
-<?php
-    get_footer();
-    exit;
-}
-?>
-
-
 <section>
     <div class="main-sections">
         <div class="buy-card text-center">
