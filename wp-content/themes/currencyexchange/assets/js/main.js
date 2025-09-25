@@ -148,9 +148,7 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 if (response.success) {
-                    Swal.fire("Success", response.message, "success").then(() => {
-                        window.location.href = custom_ajax.login_url ?? "";
-                    });
+                    window.location.href = custom_ajax.login_url;
                 } else {
                     Swal.fire("Error", response.message, "error");
                     grecaptcha.reset();
