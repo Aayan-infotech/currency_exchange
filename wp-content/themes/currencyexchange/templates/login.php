@@ -4,6 +4,7 @@ get_header();
 $site_key = RECAPTCHA_SITE_KEY;
 $secret_key = RECAPTCHA_SECRET_KEY;
 print_r($site_key);
+print_r($secret_key);
 ?>
 <section class="main-sections">
     <div class="auth-container">
