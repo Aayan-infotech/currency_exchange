@@ -203,6 +203,8 @@ jQuery(document).ready(function ($) {
             valid = false;
         }
 
+        
+
         let captchaResponse = grecaptcha.getResponse();
         console.log(captchaResponse);
         if (!captchaResponse) {
