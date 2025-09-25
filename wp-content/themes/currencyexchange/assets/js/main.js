@@ -183,79 +183,70 @@ jQuery(document).ready(function ($) {
     });
 
     $("#loginForm").on("submit", function (e) {
-
+        
         e.preventDefault();
 
-        let captchaResponse = grecaptcha.getResponse();
-        if (!captchaResponse) {
-            Swal.fire("Error", "Please complete the captcha.", "error");
-            return false;
+        let valid = true;
+        let email = $("#email");
+        let password = $("#password");
+        let remember = $("#rememberMe").is(":checked");
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!email.val().trim()) {
+            showError(email, "Email is required.");
+            valid = false;
+        }
+        if (!password.val().trim()) {
+            showError(password, "Password is required.");
+            valid = false;
+        } else if (password.val().length < 6) {
+            showError(password, "Password must be at least 6 characters.");
+            valid = false;
         }
 
+        let captchaResponse = grecaptcha.getResponse();
+        console.log(captchaResponse + 'dsdfdsfsd');
+        if (!captchaResponse) {
+            Swal.fire("Error", "Please complete the captcha.", "error");
+            valid = false;
+        }
 
-        // e.preventDefault();
+        if (!valid) return;
 
-        // let valid = true;
-        // let email = $("#email");
-        // let password = $("#password");
-        // let remember = $("#rememberMe").is(":checked");
-        // let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // if (!email.val().trim()) {
-        //     showError(email, "Email is required.");
-        //     valid = false;
-        // }
-        // if (!password.val().trim()) {
-        //     showError(password, "Password is required.");
-        //     valid = false;
-        // } else if (password.val().length < 6) {
-        //     showError(password, "Password must be at least 6 characters.");
-        //     valid = false;
-        // }
-
-        // let captchaResponse = grecaptcha.getResponse();
-        // console.log(captchaResponse + 'dsdfdsfsd');
-        // if (!captchaResponse) {
-        //     Swal.fire("Error", "Please complete the captcha.", "error");
-        //     valid = false;
-        // }
-
-        // if (!valid) return;
-
-        // let formData = {
-        //     action: "custom_user_login",
-        //     security: custom_ajax.nonce,
-        //     email: email.val(),
-        //     password: password.val(),
-        //     remember: remember,
-        //     captcha: captchaResponse
-        // };
-        // $.ajax({
-        //     url: custom_ajax.ajax_url,
-        //     type: "POST",
-        //     data: formData,
-        //     dataType: "json",
-        //     beforeSend: function () {
-        //         $("#loaderOverlay").fadeIn(300).css("display", "flex");
-        //     },
-        //     success: function (response) {
-        //         if (response.success) {
-        //             Swal.fire("Success", response.message, "success").then(() => {
-        //                 window.location.href = custom_ajax.redirect_url ?? "/";
-        //             });
-        //         } else {
-        //             Swal.fire("Error", response.message, "error");
-        //             grecaptcha.reset();
-        //         }
-        //     },
-        //     error: function () {
-        //         Swal.fire("Error", "Something went wrong. Please try again.", "error");
-        //         grecaptcha.reset();
-        //     },
-        //     complete: function () {
-        //         $("#loaderOverlay").fadeOut(300);
-        //     }
-        // });
+        let formData = {
+            action: "custom_user_login",
+            security: custom_ajax.nonce,
+            email: email.val(),
+            password: password.val(),
+            remember: remember,
+            captcha: captchaResponse
+        };
+        $.ajax({
+            url: custom_ajax.ajax_url,
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            beforeSend: function () {
+                $("#loaderOverlay").fadeIn(300).css("display", "flex");
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire("Success", response.message, "success").then(() => {
+                        window.location.href = custom_ajax.redirect_url ?? "/";
+                    });
+                } else {
+                    Swal.fire("Error", response.message, "error");
+                    grecaptcha.reset();
+                }
+            },
+            error: function () {
+                Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                grecaptcha.reset();
+            },
+            complete: function () {
+                $("#loaderOverlay").fadeOut(300);
+            }
+        });
     });
 
 
