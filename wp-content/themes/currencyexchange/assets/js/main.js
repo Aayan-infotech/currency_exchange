@@ -216,10 +216,8 @@ jQuery(document).ready(function ($) {
             email: email.val(),
             password: password.val(),
             remember: remember,
-            "g-recaptcha-response": grecaptcha.getResponse()
+            captcha: captchaResponse
         };
-
-
         $.ajax({
             url: custom_ajax.ajax_url,
             type: "POST",

@@ -212,10 +212,10 @@ function custom_user_login()
     ) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
-    if (empty($_POST['g-recaptcha-response'])) {
+    if (empty($_POST['captcha'])) {
         wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
     }
-    $response = sanitize_text_field($_POST['g-recaptcha-response']);
+    $response = sanitize_text_field($_POST['captcha']);
     $remoteip = $_SERVER['REMOTE_ADDR'];
 
     $verify   = wp_remote_get(
