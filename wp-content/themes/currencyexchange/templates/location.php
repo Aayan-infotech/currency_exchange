@@ -54,7 +54,7 @@
             </div>
 
         </div>
-        <div class="row g-4">
+        <div class="row g-4 pb-4">
             <?php
             $paged = max(1, get_query_var('paged'));
             $args = array(
