@@ -1,8 +1,5 @@
 <?php
 
-$site_key = RECAPTCHA_SITE_KEY;
-$secret_key = RECAPTCHA_SECRET_KEY;
-
 function show_admin_bar_for_admins_only($show)
 {
     if (current_user_can('administrator')) {
@@ -217,16 +214,17 @@ function custom_user_login()
     }
     $response = sanitize_text_field($_POST['captcha']);
     $remoteip = $_SERVER['REMOTE_ADDR'];
-
+    $site_key = RECAPTCHA_SITE_KEY;
+    $secret_key = RECAPTCHA_SECRET_KEY;
     $verify   = wp_remote_get(
         "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
     );
 
     $verified = json_decode(wp_remote_retrieve_body($verify));
 
-    // if (empty($verified->success)) {
-    //     wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
-    // }
+    if (empty($verified->success)) {
+        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
+    }
     $email    = sanitize_email($_POST['email'] ?? '');
     $password = sanitize_text_field($_POST['password'] ?? '');
     $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
