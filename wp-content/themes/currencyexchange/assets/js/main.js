@@ -203,10 +203,8 @@ jQuery(document).ready(function ($) {
             valid = false;
         }
 
-        
-
         let captchaResponse = grecaptcha.getResponse();
-        console.log(captchaResponse);
+        console.log(captchaResponse + 'dsdfdsfsd');
         if (!captchaResponse) {
             Swal.fire("Error", "Please complete the captcha.", "error");
             valid = false;
