@@ -1,5 +1,8 @@
 <?php
 
+$site_key = RECAPTCHA_SITE_KEY;
+$secret_key = RECAPTCHA_SECRET_KEY;
+
 function show_admin_bar_for_admins_only($show)
 {
     if (current_user_can('administrator')) {
@@ -209,18 +212,14 @@ function custom_user_login()
     ) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
-
-    // ✅ Verify reCAPTCHA
     if (empty($_POST['g-recaptcha-response'])) {
         wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
     }
-
-    $secret   = "6LeJ-NMrAAAAAAM4rcd__o4jvV-Awl1hYQctSP1p"; // replace with your Google reCAPTCHA secret key
     $response = sanitize_text_field($_POST['g-recaptcha-response']);
     $remoteip = $_SERVER['REMOTE_ADDR'];
 
     $verify   = wp_remote_get(
-        "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}&remoteip={$remoteip}"
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
     );
 
     $verified = json_decode(wp_remote_retrieve_body($verify));
@@ -1046,24 +1045,3 @@ function enqueue_recaptcha_script()
     wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js', [], null, true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_recaptcha_script');
-
-
-function restrict_wp_admin_access()
-{
-    global $pagenow;
-    if ($pagenow === 'wp-login.php' || (defined('DOING_AJAX') && DOING_AJAX)) {
-        return;
-    }
-    if (is_admin() && ! current_user_can('administrator')) {
-        status_header(404);
-        nocache_headers();
-        $template = get_query_template('404');
-        if ($template) {
-            include $template;
-        } else {
-            wp_die('You are not allowed to access this page.', 'Access Denied', array('response' => 404));
-        }
-        exit;
-    }
-}
-add_action('init', 'restrict_wp_admin_access');

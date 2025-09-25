@@ -1,6 +1,8 @@
 <?php
 // Template Name: User Login
 get_header();
+$site_key = RECAPTCHA_SITE_KEY;
+$secret_key = RECAPTCHA_SECRET_KEY;
 ?>
 <section class="main-sections">
     <div class="auth-container">
@@ -33,7 +35,7 @@ get_header();
                         <label class="form-check-label" for="rememberMe">Remember Me</label>
                     </div>
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LeJ-NMrAAAAABlzKCaiLWKLvK6oAnSyDHMgdhLc"></div>
+                <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
                 <div class="auth-footer text-center mt-2">
                     <button type="submit" class="btn btn-success auth-btn mb-1">Login</button>
                     <p>Doesn't have an account? <a href="<?php echo site_url(); ?>/signup" class="auth-link text-black">Sign up</a></p>
