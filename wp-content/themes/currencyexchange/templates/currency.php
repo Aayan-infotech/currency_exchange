@@ -20,13 +20,6 @@ get_header();
         <div class="container">
             <div class="row align-items-center g-2 search-section mb-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
 
-                <!-- Reset Button -->
-                <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
-                    <button type="button" id="reset-currency-button" class="btn btn-success d-flex align-items-center justify-content-center">
-                        <i class="fas fa-sync-alt me-1"></i> Reset
-                    </button>
-                </div>
-
                 <!-- Search Input (50%) -->
                 <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
                     <input type="text" class="form-control" id="search_currency" placeholder="Search currencies..." />

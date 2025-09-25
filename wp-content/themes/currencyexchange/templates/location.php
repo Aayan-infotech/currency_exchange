@@ -34,7 +34,7 @@
                 <!-- Search Input (50%) -->
                 <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
                     <input type="text" class="form-control" id="location-search-input"
-                        placeholder="Search for locations..." />
+                        placeholder="Search location..." />
                 </div>
 
                 <!-- Spacer to push filter to end -->
