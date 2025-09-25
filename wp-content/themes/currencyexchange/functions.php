@@ -224,9 +224,9 @@ function custom_user_login()
 
     $verified = json_decode(wp_remote_retrieve_body($verify));
 
-    if (empty($verified->success)) {
-        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
-    }
+    // if (empty($verified->success)) {
+    //     wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
+    // }
     $email    = sanitize_email($_POST['email'] ?? '');
     $password = sanitize_text_field($_POST['password'] ?? '');
     $remember = isset($_POST['remember']) && $_POST['remember'] === 'true';
