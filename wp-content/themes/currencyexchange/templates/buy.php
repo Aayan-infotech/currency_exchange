@@ -1,6 +1,13 @@
 <?php
 // Template Name: Buy
+
+if (! is_user_logged_in()) {
+    wp_redirect(site_url('/login'));
+    exit;
+}
+
 get_header();
+
 if (isset($_GET['data'])) {
     $decoded = base64_decode($_GET['data']);
     parse_str($decoded, $params);
@@ -186,8 +193,8 @@ if (isset($_GET['data'])) {
                         <option><?php echo strtoupper($currancy); ?></option>
                     </select>
                 </div>
-            </div>    
-            
+            </div>
+
             <div class="mb-4 d-flex justify-content-between align-items-center">
                 <label class="form-label">Total Amount</label>
                 <span class="total-amount fw-bold" id="totalAmount"
