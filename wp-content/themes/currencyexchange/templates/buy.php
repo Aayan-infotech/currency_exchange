@@ -629,6 +629,11 @@ if (!is_user_logged_in()) {
                 return;
             }
 
+            if (!custom_ajax.is_logged_in) {
+                window.location.href = custom_ajax.login_url;
+                return;
+            }
+
             $.ajax({
                 url: '<?php echo admin_url("admin-ajax.php"); ?>',
                 method: "POST",
@@ -674,7 +679,6 @@ if (!is_user_logged_in()) {
                 }
             });
         });
-
     });
 </script>
 

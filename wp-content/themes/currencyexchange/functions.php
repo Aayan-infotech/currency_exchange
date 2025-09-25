@@ -69,6 +69,8 @@ function mytheme_enqueue_assets()
         'ajax_url'     => admin_url('admin-ajax.php'),
         'nonce'        => wp_create_nonce('mytheme_global_nonce'),
         'redirect_url' => home_url(),
+        'login_url'    => site_url('/login'),
+        'is_logged_in' => is_user_logged_in(),
     ]);
 }
 add_action('wp_enqueue_scripts', 'mytheme_enqueue_assets');
