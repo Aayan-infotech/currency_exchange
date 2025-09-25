@@ -27,7 +27,7 @@
             <div class="col-md-6 mt-4" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                 <div class="">
                     <h3 class="fw-bold">About the company</h3>
-                    <p class="align-items-justify">
+                    <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
                         dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis
                         natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus

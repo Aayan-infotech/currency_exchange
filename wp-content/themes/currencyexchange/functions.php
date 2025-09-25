@@ -446,64 +446,69 @@ add_action('wp_ajax_nopriv_custom_location_search', 'custom_location_search');
 
 function custom_currency_search()
 {
+    global $wpdb;
     if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
     $search  = sanitize_text_field($_POST['search'] ?? '');
-    $sort    = sanitize_text_field($_POST['sort'] ?? '');
+    $sort    = sanitize_text_field($_POST['sort'] ?? 'latest');
     $user_id = get_current_user_id();
-    $country = get_user_meta($user_id, 'country', true);
-    if (is_user_logged_in() && $country && strtolower($country) !== 'all') {
-        $args = array(
-            'post_type'      => 'currency',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            's'              => $search,
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-            'meta_query'     => array(
-                array(
-                    'key'     => 'country',
-                    'value'   => $country ? $country : 'united states',
-                    'compare' => '='
-                )
-            )
-        );
-    } else {
-        $args = array(
-            'post_type'      => 'currency',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            's'              => $search,
-            'orderby'        => 'title',
-            'order'          => 'ASC',
-        );
-    }
+    $user_country = get_user_meta($user_id, 'country', true);
+    $order_by = "p.post_date DESC";
     switch ($sort) {
         case 'asc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'ASC';
+            $order_by = "p.post_title ASC";
             break;
         case 'desc':
-            $args['orderby'] = 'title';
-            $args['order']   = 'DESC';
+            $order_by = "p.post_title DESC";
             break;
         case 'oldest':
-            $args['orderby'] = 'date';
-            $args['order']   = 'ASC';
+            $order_by = "p.post_date ASC";
             break;
         case 'latest':
-            $args['orderby'] = 'date';
-            $args['order']   = 'DESC';
+        default:
+            $order_by = "p.post_date DESC";
             break;
     }
-    $query = new WP_Query($args);
+    $sql = "
+        SELECT DISTINCT p.ID, p.post_title, p.post_date
+        FROM {$wpdb->posts} p
+        LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
+        WHERE p.post_type = 'currency'
+          AND p.post_status = 'publish'
+    ";
+    if (is_user_logged_in() && $user_country && strtolower($user_country) !== 'all') {
+        $sql .= $wpdb->prepare(" 
+            AND EXISTS (
+                SELECT 1 FROM {$wpdb->postmeta} pmc
+                WHERE pmc.post_id = p.ID 
+                  AND pmc.meta_key = 'country'
+                  AND pmc.meta_value = %s
+            )
+        ", $user_country);
+    }
+    if (!empty($search)) {
+        $like = '%' . $wpdb->esc_like($search) . '%';
+        $sql .= $wpdb->prepare("
+            AND (
+                p.post_title LIKE %s
+                OR (pm.meta_key IN ('country','current_price','change_rate') AND pm.meta_value LIKE %s)
+            )
+        ", $like, $like);
+    }
+
+    $sql .= " ORDER BY $order_by";
+
+    $results = $wpdb->get_results($sql);
+
     ob_start();
-    if ($query->have_posts()) :
-        while ($query->have_posts()) : $query->the_post();
-            $country       = get_post_meta(get_the_ID(), 'country', true);
-            $current_price = get_post_meta(get_the_ID(), 'current_price', true);
-            $change_rate   = get_post_meta(get_the_ID(), 'change_rate', true);
+
+    if ($results) :
+        foreach ($results as $row) :
+            $country       = get_post_meta($row->ID, 'country', true);
+            $current_price = get_post_meta($row->ID, 'current_price', true);
+            $change_rate   = get_post_meta($row->ID, 'change_rate', true);
+
             $change_class = '';
             if ($change_rate > 0) {
                 $change_class = 'positive-change';
@@ -516,13 +521,13 @@ function custom_currency_search()
             }
         ?>
             <tr>
-                <td><strong><?php the_title(); ?></strong></td>
+                <td><strong><?php echo esc_html($row->post_title); ?></strong></td>
                 <td class="d-none d-md-table-cell"><strong><?php echo esc_html($country); ?></strong></td>
                 <td><?php echo esc_html($current_price); ?></td>
                 <td class="<?php echo esc_attr($change_class); ?>"><?php echo esc_html($change_rate); ?></td>
                 <td class="positive-change">
                     <?php
-                    $params = 'isds=' . get_the_ID();
+                    $params = 'isds=' . $row->ID;
                     $encoded_params = base64_encode($params);
                     ?>
                     <button
@@ -533,12 +538,13 @@ function custom_currency_search()
                 </td>
             </tr>
     <?php
-        endwhile;
+        endforeach;
     else :
         echo '<tr><td colspan="5">No currencies found.</td></tr>';
     endif;
-    wp_reset_postdata();
+
     $html = ob_get_clean();
+
     wp_send_json([
         'success' => true,
         'html'    => $html,
@@ -546,6 +552,14 @@ function custom_currency_search()
 }
 add_action('wp_ajax_nopriv_custom_currency_search', 'custom_currency_search');
 add_action('wp_ajax_custom_currency_search', 'custom_currency_search');
+
+
+
+
+
+
+
+
 
 
 add_action('wp_ajax_update_user_country', 'update_user_country_callback');

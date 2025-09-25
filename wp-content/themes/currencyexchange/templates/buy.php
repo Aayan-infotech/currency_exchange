@@ -180,7 +180,7 @@ if (isset($_GET['data'])) {
                 </div>
             </div>
             <div class="mb-4 d-flex justify-content-between align-content-center">
-                <label class="form-label">Your Selected Currency</label>
+                <label class="form-label">Your Currency</label>
                 <div class="custom-select">
                     <select id="currency" name="currency">
                         <option><?php echo strtoupper($currancy); ?></option>
