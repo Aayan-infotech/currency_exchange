@@ -122,6 +122,7 @@ jQuery(document).ready(function ($) {
             valid = false;
         }
         let captchaResponse = grecaptcha.getResponse();
+
         if (!captchaResponse) {
             Swal.fire("Error", "Please complete the captcha.", "error");
             valid = false;
@@ -203,6 +204,7 @@ jQuery(document).ready(function ($) {
         }
 
         let captchaResponse = grecaptcha.getResponse();
+        console.log(captchaResponse);
         if (!captchaResponse) {
             Swal.fire("Error", "Please complete the captcha.", "error");
             valid = false;
