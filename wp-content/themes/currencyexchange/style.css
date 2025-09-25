@@ -261,7 +261,7 @@ button.btn.btn-buy:hover {
 footer {
     color: black;
     padding: 60px 0 30px;
-    background: #f3f3f3;
+    background: #f3f3f3 !important;
 }
 
 .footer-heading {
