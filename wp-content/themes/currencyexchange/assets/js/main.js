@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     Swal.fire("Success", response.message, "success").then(() => {
-                        window.location.href = custom_ajax.redirect_url ?? "/";
+                        window.location.href = custom_ajax.redirect_url ?? "/login";
                     });
                 } else {
                     Swal.fire("Error", response.message, "error");
