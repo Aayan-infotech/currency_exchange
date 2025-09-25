@@ -216,6 +216,7 @@ function custom_user_login()
     $remoteip = $_SERVER['REMOTE_ADDR'];
     $site_key = RECAPTCHA_SITE_KEY;
     $secret_key = RECAPTCHA_SECRET_KEY;
+    
     $verify   = wp_remote_get(
         "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
     );

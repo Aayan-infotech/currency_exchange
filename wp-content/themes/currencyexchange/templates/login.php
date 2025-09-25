@@ -2,6 +2,7 @@
 // Template Name: User Login
 get_header();
 $site_key = RECAPTCHA_SITE_KEY;
+print_r($site_key);
 $secret_key = RECAPTCHA_SECRET_KEY;
 ?>
 <section class="main-sections">
