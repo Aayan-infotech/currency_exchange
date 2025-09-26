@@ -31,6 +31,7 @@ get_header();
                 $delay = 200;
                 while ($query->have_posts()) : $query->the_post();
                     $icon_id = get_post_meta(get_the_ID(), 'icon', true);
+                    $title = wp_trim_words(get_the_title(), 10, '...');
                     $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : get_template_directory_uri() . '/assets/images/setting_Icon.png';
                     $excerpt = wp_trim_words(get_the_excerpt(), 30, '...');
             ?>
@@ -39,7 +40,7 @@ get_header();
                             <div class="mb-4">
                                 <img src="<?php echo esc_url($icon_url); ?>" height="50" width="50" alt="<?php the_title_attribute(); ?>" />
                             </div>
-                            <h3><?php the_title(); ?></h3>
+                            <h3><?php echo esc_html($title); ?></h3>
                             <p><?php echo esc_html($excerpt); ?></p>
                             <a href="<?php the_permalink(); ?>" style="color: white;" class="text-decoration-none btn btn-services">Learn More</a>
                         </div>
