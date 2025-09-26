@@ -29,7 +29,6 @@ require_once get_template_directory() . '/assets/dependencies/inc/wp-bootstrap-n
 function mytheme_enqueue_assets()
 {
     wp_enqueue_style('mytheme-style', get_stylesheet_uri());
-    // wp_enqueue_style('mytheme-custom', get_template_directory_uri() . '/assets/css/main.css');
      wp_enqueue_style(
         'my-style',
         get_stylesheet_directory_uri() . '/assets/css/main.css',
