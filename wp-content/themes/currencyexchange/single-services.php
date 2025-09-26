@@ -11,9 +11,6 @@ if (have_posts()) :
                 <div class="row gx-1">
                     <div class="col">
                         <h1 class="aboutus-heading" data-aos="fade-down" data-aos-duration="1000"><?php echo esc_html($title); ?></h1>
-                        <p class="lead mt-3" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                            <?php echo wp_kses_post(wp_trim_words($content, 30)); ?>
-                        </p>
                     </div>
                 </div>
             </div>
