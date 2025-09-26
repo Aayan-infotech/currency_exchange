@@ -561,7 +561,7 @@ if (isset($_GET['data'])) {
                 alert("Name is required!");
                 return;
             } else if (!/^[A-Z][a-zA-Z\s]*$/.test(name)) {
-                alert("Name must start with a capital letter and contain only letters.");
+                alert("Name must start with a capital letter.");
                 return;
             }
 
