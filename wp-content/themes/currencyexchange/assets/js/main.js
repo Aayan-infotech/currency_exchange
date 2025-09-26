@@ -185,36 +185,23 @@ jQuery(document).ready(function ($) {
         });
     });
 
-
-    $("#loginForm input").on("input", function () {
-        let input = $(this);
-        removeError(input);
-        if (input.attr("id") === "email") {
-            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(input.val().trim())) {
-                showError(input, "Enter a valid email address.");
-            }
-        }
-        if (input.attr("id") === "password") {
-            if (input.val().length < 6) {
-                showError(input, "Password must be at least 6 characters.");
-            }
-        }
-    });
-
     $("#loginForm").on("submit", function (e) {
-
         e.preventDefault();
-
-        let valid = true;
         let email = $("#email");
         let password = $("#password");
         let remember = $("#rememberMe").is(":checked");
-        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+        let redirect_url = $(this).data('redirect_url');
+        let valid = true;
+        $(".error-message").text("");
         if (!email.val().trim()) {
             showError(email, "Email is required.");
             valid = false;
+        } else {
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email.val().trim())) {
+                showError(email, "Please enter a valid email address.");
+                valid = false;
+            }
         }
         if (!password.val().trim()) {
             showError(password, "Password is required.");
@@ -223,23 +210,21 @@ jQuery(document).ready(function ($) {
             showError(password, "Password must be at least 6 characters.");
             valid = false;
         }
-
-        let captchaResponse = grecaptcha.getResponse();
-
-        if (!captchaResponse) {
-            Swal.fire("Error", "Please complete the captcha.", "error");
-            valid = false;
+        if (valid) {
+            let captchaResponse = grecaptcha.getResponse();
+            if (!captchaResponse) {
+                Swal.fire("Error", "Please complete the captcha.", "error");
+                valid = false;
+            }
         }
-
         if (!valid) return;
-
         let formData = {
             action: "custom_user_login",
             security: custom_ajax.nonce,
-            email: email.val(),
+            email: email.val().trim(),
             password: password.val(),
             remember: remember,
-            captcha: captchaResponse
+            captcha: grecaptcha.getResponse()
         };
         $.ajax({
             url: custom_ajax.ajax_url,
@@ -252,7 +237,7 @@ jQuery(document).ready(function ($) {
             success: function (response) {
                 if (response.success) {
                     Swal.fire("Success", response.message, "success").then(() => {
-                        window.location.href = custom_ajax.redirect_url ?? "/";
+                        window.location.href = redirect_url || "/";
                     });
                 } else {
                     Swal.fire("Error", response.message, "error");
@@ -268,7 +253,6 @@ jQuery(document).ready(function ($) {
             }
         });
     });
-
 
     function isValidEmail(email) {
         let pattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;

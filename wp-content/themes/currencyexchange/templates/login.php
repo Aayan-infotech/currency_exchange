@@ -3,6 +3,7 @@
 get_header();
 $site_key = RECAPTCHA_SITE_KEY;
 $secret_key = RECAPTCHA_SECRET_KEY;
+$redirect_url = !empty($_GET['redirect_to']) ? esc_url($_GET['redirect_to']) : site_url('/');
 ?>
 <section class="main-sections">
     <div class="auth-container">
@@ -11,7 +12,7 @@ $secret_key = RECAPTCHA_SECRET_KEY;
                 <h2 class="auth-title">Login</h2>
                 <p class="auth-subtitle">Welcome back! Please enter your details</p>
             </div>
-            <form id="loginForm">
+            <form id="loginForm" data-redirect_url="<?php echo $redirect_url; ?>">
                 <?php wp_nonce_field('ajax-login-nonce', 'security'); ?>
                 <div class="form-group">
                     <label for="email" class="form-label">Email</label>
@@ -45,5 +46,4 @@ $secret_key = RECAPTCHA_SECRET_KEY;
         </div>
     </div>
 </section>
-
 <?php get_footer(); ?>
