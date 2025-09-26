@@ -29,7 +29,7 @@ $saved_country = $user_id ? get_user_meta($user_id, 'country', true) : '';
         <nav class="navbar navbar-expand-lg navbar-custom fixed-top <?php if (current_user_can('administrator')) echo 'admin-navbar'; ?>">
             <div class="container">
                 <a class="navbar-brand" href="<?php echo site_url(); ?>">Foreign Currency Exchange</a>
-                <?php if (is_user_logged_in()) : ?>
+                <?php if (is_user_logged_in() && (is_page('currency') || is_page('location'))) : ?>
                     <?php
                     $args = array(
                         'post_type'      => 'currency',
