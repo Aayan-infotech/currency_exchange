@@ -60,7 +60,7 @@
                 'meta_query'     => array(
                     array(
                         'key'     => 'country',
-                        'value'   => '%' . $country . '%',
+                        'value'   => $country,
                         'compare' => 'LIKE'
                     )
                 )
