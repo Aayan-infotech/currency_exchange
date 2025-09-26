@@ -92,12 +92,10 @@ jQuery(document).ready(function ($) {
     $("#SignUpForm").on("submit", function (e) {
         e.preventDefault();
         let valid = true;
-
         let email = $("#email");
         let number = $("#number");
         let password = $("#password");
         let confirm_password = $("#confirm_password");
-
         if (!name.val().trim()) {
             showError(name, "Name is required.");
             valid = false;
@@ -105,7 +103,6 @@ jQuery(document).ready(function ($) {
             showError(name, "First letter must be capital.");
             valid = false;
         }
-
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email.val().trim()) {
             showError(email, "Email is required.");

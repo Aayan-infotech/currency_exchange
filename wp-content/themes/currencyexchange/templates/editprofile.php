@@ -215,7 +215,7 @@ get_header(); ?>
         </div>
         <div class="col-md-6">
             <label for="email" class="form-label">Email ID</label>
-            <input type="email" class="form-control" id="email" name="email" value="<?php echo esc_attr($current_user->user_email); ?>">
+            <input type="email" class="form-control" id="email" name="email" value="<?php echo esc_attr($current_user->user_email); ?>" disabled>
             <span class="text-danger" id="emailError"></span>
         </div>
     </div>
