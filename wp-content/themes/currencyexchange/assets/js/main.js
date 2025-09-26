@@ -268,6 +268,7 @@ jQuery(document).ready(function ($) {
             }
         }
     });
+
     $('#send-otp-btn').on('click', function (e) {
         e.preventDefault();
         let email = $('#email');
@@ -345,6 +346,7 @@ jQuery(document).ready(function ($) {
                 otp: otpVal,
                 password: passwordVal,
                 security: custom_ajax.nonce,
+                captcha: captchaResponse
             },
             dataType: 'json',
             beforeSend: function () {
