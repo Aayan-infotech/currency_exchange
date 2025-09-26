@@ -395,7 +395,7 @@
 
 /* Service Section */
 .services {
-    background: url('./assets/images/Grid\ 1.png') no-repeat center center/cover;
+    background: url('../assets/images/Grid\ 1.png') no-repeat center center/cover;
     padding: 60px 0;
 }
 
@@ -423,7 +423,7 @@
 
 /* Currency Table */
 .currency-table {
-    background: url('./assets/images/Grid\ 1.png') no-repeat center center/cover;
+    background: url('../assets/images/Grid\ 1.png') no-repeat center center/cover;
     padding: 60px 0;
 }
 
@@ -937,7 +937,7 @@ a.btn.btn-services:hover {
 
 /* Profile Section */
 .profile-section {
-    background: url('./assets/images/Grid\ 1.png') no-repeat center center/cover;
+    background: url('../assets/images/Grid\ 1.png') no-repeat center center/cover;
     padding: 60px 0;
     min-height: 60vh;
 }
