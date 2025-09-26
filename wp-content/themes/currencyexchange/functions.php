@@ -387,6 +387,13 @@ function custom_location_search()
             $order_by = "p.post_date DESC";
             break;
     }
+    $sql = "
+        SELECT DISTINCT p.ID, p.post_title, p.post_date
+        FROM {$wpdb->posts} p
+        LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
+        WHERE p.post_type = 'location'
+          AND p.post_status = 'publish'
+    ";
     if (is_user_logged_in() && $user_country && strtolower($user_country) !== 'all') {
         $sql .= $wpdb->prepare(" 
             AND EXISTS (
@@ -397,6 +404,7 @@ function custom_location_search()
             )
         ", $user_country);
     }
+
     if (!empty($search)) {
         $like = '%' . $wpdb->esc_like($search) . '%';
         $sql .= $wpdb->prepare("
