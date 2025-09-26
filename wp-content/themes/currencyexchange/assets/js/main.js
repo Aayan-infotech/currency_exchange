@@ -306,10 +306,12 @@ jQuery(document).ready(function ($) {
                     $('#send-otp-btn').hide();
                 } else {
                     Swal.fire('Error', response.message, 'error');
+                    grecaptcha.reset();
                 }
             },
             error: function () {
                 Swal.fire('Error', 'Something went wrong.', 'error');
+                grecaptcha.reset();
             },
             complete: function () {
                 $("#loaderOverlay").fadeOut(300);
@@ -343,7 +345,6 @@ jQuery(document).ready(function ($) {
                 otp: otpVal,
                 password: passwordVal,
                 security: custom_ajax.nonce,
-                captcha: captchaResponse
             },
             dataType: 'json',
             beforeSend: function () {
