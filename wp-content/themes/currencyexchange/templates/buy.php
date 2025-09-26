@@ -544,15 +544,50 @@ if (isset($_GET['data'])) {
             $(this).addClass("d-none");
         });
 
+        $("#nameInput").on("keypress", function (e) {
+            let char = String.fromCharCode(e.which);
+            if (!/[a-zA-Z\s]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+
         $("#saveNewAddress").on("click", function() {
-            let name = $("#nameInput").val();
-            let email = $("#emailInput").val();
-            let address = $("#address_input").val();
-            let phone = $("#phoneInput").val();
-            if (!name || !email || !address || !phone) {
-                alert("Please fill out all fields!");
+            let name = $("#nameInput").val().trim();
+            let email = $("#emailInput").val().trim();
+            let address = $("#address_input").val().trim();
+            let phone = $("#phoneInput").val().trim();
+
+            if (!name) {
+                alert("Name is required!");
+                return;
+            } else if (!/^[A-Z][a-zA-Z\s]*$/.test(name)) {
+                alert("Name must start with a capital letter and contain only letters.");
                 return;
             }
+
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                alert("Email is required!");
+                return;
+            } else if (!emailPattern.test(email)) {
+                alert("Enter a valid email address.");
+                return;
+            }
+
+            if (!address) {
+                alert("Address is required!");
+                return;
+            }
+
+            let phonePattern = /^[0-9]{10}$/;
+            if (!phone) {
+                alert("Phone number is required!");
+                return;
+            } else if (!phonePattern.test(phone)) {
+                alert("Enter a valid 10-digit phone number.");
+                return;
+            }
+
             $.ajax({
                 url: '<?php echo admin_url("admin-ajax.php"); ?>',
                 method: "POST",
@@ -585,6 +620,7 @@ if (isset($_GET['data'])) {
                 }
             });
         });
+
 
         $('#addressModal').on('show.bs.modal', function() {
             $("#newAddressForm").addClass("d-none");
