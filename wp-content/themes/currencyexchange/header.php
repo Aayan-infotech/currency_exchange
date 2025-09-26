@@ -81,7 +81,7 @@ $saved_country = $user_id ? get_user_meta($user_id, 'country', true) : '';
                         'walker'         => new Bootstrap_Navwalker(),
                     ));
                     ?>
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex">
                         <?php if (is_user_logged_in()) : ?>
                             <div class="dropdown">
                                 <a class="btn btn-outline-light rounded-circle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">

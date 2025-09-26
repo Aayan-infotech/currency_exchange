@@ -244,8 +244,10 @@
     .service-image {
         max-height: 300px;
     }
-    .navbar-custom .nav-link{
-        text-align: end !important;
+
+    .dropdown-menu-end[data-bs-popper] {
+        right: 0;
+        left: 10px !important;
     }
 }
 
