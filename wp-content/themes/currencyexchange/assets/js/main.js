@@ -90,8 +90,19 @@ jQuery(document).ready(function ($) {
         let number = $("#number");
         let password = $("#password");
         let confirm_password = $("#confirm_password");
+
+        name.on("keypress", function (e) {
+            let char = String.fromCharCode(e.which);
+            if (!/[a-zA-Z\s]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+
         if (!name.val().trim()) {
             showError(name, "Name is required.");
+            valid = false;
+        } else if (!/^[A-Z][a-zA-Z]*$/.test(name.val().trim())) {
+            showError(name, "First letter must be capital.");
             valid = false;
         }
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
