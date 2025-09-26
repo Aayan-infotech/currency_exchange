@@ -503,7 +503,7 @@ footer {
 .footer-links {
     list-style: none;
     padding: 0;
-    text-align: justify;
+    text-align: start;
 }
 
 .footer-links li {
