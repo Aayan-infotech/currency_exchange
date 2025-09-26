@@ -31,12 +31,12 @@ get_header();
                 $delay = 200;
                 while ($query->have_posts()) : $query->the_post();
                     $icon_id = get_post_meta(get_the_ID(), 'icon', true);
-                    $title = wp_trim_words(get_the_title(), 6, '...');
+                    $title = wp_trim_words(get_the_title(), 10, '...');
                     $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : get_template_directory_uri() . '/assets/images/setting_Icon.png';
                     $excerpt = wp_trim_words(get_the_excerpt(), 30, '...');
             ?>
                     <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="<?php echo $delay; ?>">
-                        <div class="service-card">
+                        <div class="service-card h-100">
                             <div class="mb-4">
                                 <img src="<?php echo esc_url($icon_url); ?>" height="50" width="50" alt="<?php the_title_attribute(); ?>" />
                             </div>
