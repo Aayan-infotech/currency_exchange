@@ -391,7 +391,7 @@ function custom_location_search()
         SELECT DISTINCT p.ID, p.post_title, p.post_date
         FROM {$wpdb->posts} p
         LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
-        WHERE p.post_type = 'location'
+        WHERE p.post_type = 'locations'
           AND p.post_status = 'publish'
     ";
     if (is_user_logged_in() && $user_country && strtolower($user_country) !== 'all') {
