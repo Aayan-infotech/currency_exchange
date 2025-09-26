@@ -245,7 +245,7 @@
         max-height: 300px;
     }
     .navbar-custom .nav-link{
-        text-align: end;
+        text-align: end !important;
     }
 }
 
