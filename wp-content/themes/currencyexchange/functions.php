@@ -36,6 +36,12 @@ function mytheme_enqueue_assets()
         [],
         filemtime(get_stylesheet_directory() . '/assets/css/main.css')
     );
+    // wp_enqueue_style('mytheme-style', get_stylesheet_uri());
+     wp_enqueue_style(
+        'mytheme-style', get_stylesheet_uri(),
+        [],
+        filemtime(get_stylesheet_directory())
+    );
 
     wp_enqueue_style(
         'fontawesome-css',
