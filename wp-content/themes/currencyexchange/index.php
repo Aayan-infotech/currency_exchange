@@ -16,10 +16,10 @@
         <div class="row gx-1">
             <div class="col-12 col-md-8 p-4 p-md-0">
                 <h1 class="currency-heading" data-aos="fade-right" data-aos-duration="1000">
-                    Your Ultimate Currency Converter Tool
+                    Welcome to Foreign Currency Express – South Florida’s Trusted Currency Exchange Since 2009
                 </h1>
                 <p class="lead mt-3" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                    100 countries, 50 currencies, Get the account's but its save your money record for world.
+                    YOUR ULTIMATE FOREIGN CURRENCY PROVIDER FOR YOUR TRAVEL CASH AND PAYMENT NEEDS
                 </p>
                 <div class="hero-buttons d-flex justify-content-center align-items-center mt-5" data-aos="fade-up"
                     data-aos-duration="1000" data-aos-delay="400">

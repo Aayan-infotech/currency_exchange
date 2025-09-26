@@ -156,6 +156,16 @@ if (isset($_GET['data'])) {
         background-color: #28a745;
         color: #ffffff;
     }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 
 <section class="hero" style="padding-top: 80px">
@@ -418,20 +428,27 @@ if (isset($_GET['data'])) {
         }
         updateTotal();
         $("#btnPlus").on("click", function() {
-            let q = parseInt($("#quantity").val()) || 0;
+            let q = parseInt($("#quantity").val()) || 1;
             $("#quantity").val(q + 1);
             updateTotal();
         });
+
         $("#btnMinus").on("click", function() {
-            let q = parseInt($("#quantity").val()) || 0;
+            let q = parseInt($("#quantity").val()) || 1;
             if (q > 1) {
                 $("#quantity").val(q - 1);
                 updateTotal();
             }
         });
+
         $("#quantity").on("input", function() {
+            let q = parseInt($(this).val());
+            if (isNaN(q) || q < 1) {
+                $(this).val(1);
+            }
             updateTotal();
         });
+
         $(".delivery-option").on("click", function() {
             var value = $(this).data("value");
             $("#deliveryModeInput").val(value);
@@ -562,6 +579,12 @@ if (isset($_GET['data'])) {
             $("#addNewAddress").removeClass("d-none");
             $("#nameInput, #emailInput, #address_input, #phoneInput").val('');
             loadAddresses();
+        });
+
+        $(".payment-option").on("click", function(e) {
+            if (!$(e.target).hasClass("select-payment-option") && !$(e.target).is("i")) {
+                $(this).find(".select-payment-option").trigger("click");
+            }
         });
 
         $(".select-payment-option").on("click", function() {
