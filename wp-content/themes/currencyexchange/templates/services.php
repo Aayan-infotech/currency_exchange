@@ -31,7 +31,7 @@ get_header();
                 $delay = 200;
                 while ($query->have_posts()) : $query->the_post();
                     $icon_id = get_post_meta(get_the_ID(), 'icon', true);
-                    $title = wp_trim_words(get_the_title(), 10, '...');
+                    $title = wp_trim_words(get_the_title(), 7, '...');
                     $icon_url = $icon_id ? wp_get_attachment_url($icon_id) : get_template_directory_uri() . '/assets/images/setting_Icon.png';
                     $excerpt = wp_trim_words(get_the_excerpt(), 30, '...');
             ?>
