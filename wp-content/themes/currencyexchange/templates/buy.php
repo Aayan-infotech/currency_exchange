@@ -644,13 +644,17 @@ if (isset($_GET['data'])) {
                 return;
             }
             let price = total.toFixed(2);
-            var deliveryMode = $("#deliveryModeInput").val();
-            var storeId = $("#storeIdInput").val();
-            var addressInput = $("#addressInput").val();
-            var paymentInput = $("#paymentInput").val();
-            var currency_id = $("#currency_id").val();
-            if (!price || !deliveryMode || !storeId || !addressInput || !paymentInput) {
-                alert("Please fill all option!");
+            let deliveryMode = $("#deliveryModeInput").val();
+            let storeId = $("#storeIdInput").val();
+            let addressInput = $("#addressInput").val();
+            let paymentInput = $("#paymentInput").val();
+            let currency_id = $("#currency_id").val();
+            if (!price || !deliveryMode || !addressInput || !paymentInput) {
+                alert("Please fill all required options!");
+                return;
+            }
+            if (deliveryMode === "Pickup from Nearby Store" && (!storeId || storeId === "")) {
+                alert("Please select a store for pickup!");
                 return;
             }
             $.ajax({
