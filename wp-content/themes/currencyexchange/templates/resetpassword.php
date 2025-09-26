@@ -35,6 +35,7 @@ $site_key   = RECAPTCHA_SITE_KEY;
                     <div class="password-match text-danger" id="passwordMatchError">Passwords do not match</div>
                 </div>
             </form>
+            <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
             <div class="auth-footer text-center mt-2">
                 <button type="submit" class="btn btn-success auth-btn mb-1" id="resetPasswordBtn">Reset Password</button>
             </div>
