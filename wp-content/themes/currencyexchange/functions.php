@@ -343,9 +343,6 @@ function custom_reset_password()
     $email = sanitize_email($_POST['email'] ?? '');
     $otp = sanitize_text_field($_POST['otp'] ?? '');
     $password = sanitize_text_field($_POST['password'] ?? '');
-    if (empty($_POST['captcha'])) {
-        wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
-    }
     $user = get_user_by('email', $email);
     if (!$user) {
         wp_send_json(['success' => false, 'message' => 'Invalid email.']);
@@ -362,6 +359,7 @@ function custom_reset_password()
 }
 add_action('wp_ajax_nopriv_custom_reset_password', 'custom_reset_password');
 add_action('wp_ajax_custom_reset_password', 'custom_reset_password');
+
 
 
 
