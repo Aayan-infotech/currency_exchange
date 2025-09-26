@@ -370,6 +370,8 @@ function custom_location_search()
     }
     $search   = sanitize_text_field($_POST['search'] ?? '');
     $sort     = sanitize_text_field($_POST['sort'] ?? 'latest');
+    $user_id = get_current_user_id();
+    $user_country = get_user_meta($user_id, 'country', true);
     $order_by = "p.post_date DESC";
     switch ($sort) {
         case 'asc':
@@ -385,21 +387,24 @@ function custom_location_search()
             $order_by = "p.post_date DESC";
             break;
     }
-    $sql = "
-    SELECT DISTINCT p.ID, p.post_title, p.post_date
-    FROM {$wpdb->posts} p
-    LEFT JOIN {$wpdb->postmeta} pm ON (p.ID = pm.post_id)
-    WHERE p.post_type = 'locations'
-      AND p.post_status = 'publish'
-";
+    if (is_user_logged_in() && $user_country && strtolower($user_country) !== 'all') {
+        $sql .= $wpdb->prepare(" 
+            AND EXISTS (
+                SELECT 1 FROM {$wpdb->postmeta} pmc
+                WHERE pmc.post_id = p.ID 
+                  AND pmc.meta_key = 'country'
+                  AND pmc.meta_value = %s
+            )
+        ", $user_country);
+    }
     if (!empty($search)) {
         $like = '%' . $wpdb->esc_like($search) . '%';
         $sql .= $wpdb->prepare("
-        AND (
-            p.post_title LIKE %s
-            OR (pm.meta_key IN ('number','email','location') AND pm.meta_value LIKE %s)
-        )
-    ", $like, $like);
+            AND (
+                p.post_title LIKE %s
+                OR (pm.meta_key IN ('number','email','location') AND pm.meta_value LIKE %s)
+            )
+        ", $like, $like);
     }
     $sql .= " ORDER BY $order_by";
     $results = $wpdb->get_results($sql);
