@@ -90,15 +90,31 @@ jQuery(document).ready(function ($) {
         let number = $("#number");
         let password = $("#password");
         let confirm_password = $("#confirm_password");
+
+        name.on("keypress", function (e) {
+            let char = String.fromCharCode(e.which);
+            if (!/[a-zA-Z\s]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+
         if (!name.val().trim()) {
             showError(name, "Name is required.");
             valid = false;
+        } else if (!/^[A-Z][a-zA-Z\s]*$/.test(name.val().trim())) {
+            showError(name, "First letter must be capital.");
+            valid = false;
         }
+
         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email.val().trim()) {
             showError(email, "Email is required.");
             valid = false;
+        } else if (!emailPattern.test(email.val().trim())) {
+            showError(email, "Enter a valid email address.");
+            valid = false;
         }
+
         let numberPattern = /^[0-9]{10}$/;
         if (!number.val().trim()) {
             showError(number, "Mobile number is required.");
@@ -107,6 +123,7 @@ jQuery(document).ready(function ($) {
             showError(number, "Enter a valid 10-digit mobile number.");
             valid = false;
         }
+
         if (!password.val().trim()) {
             showError(password, "Password is required.");
             valid = false;
@@ -114,6 +131,7 @@ jQuery(document).ready(function ($) {
             showError(password, "Password must be at least 6 characters.");
             valid = false;
         }
+
         if (!confirm_password.val().trim()) {
             showError(confirm_password, "Confirm your password.");
             valid = false;
@@ -121,13 +139,15 @@ jQuery(document).ready(function ($) {
             showError(confirm_password, "Passwords do not match.");
             valid = false;
         }
-        let captchaResponse = grecaptcha.getResponse();
 
+        if (!valid) return;
+
+        let captchaResponse = grecaptcha.getResponse();
         if (!captchaResponse) {
             Swal.fire("Error", "Please complete the captcha.", "error");
-            valid = false;
+            return;
         }
-        if (!valid) return;
+
         let formData = {
             action: "custom_user_registration",
             security: custom_ajax.nonce,
@@ -138,6 +158,7 @@ jQuery(document).ready(function ($) {
             confirm_password: confirm_password.val(),
             captcha: captchaResponse
         };
+
         $.ajax({
             url: custom_ajax.ajax_url,
             type: "POST",
@@ -163,6 +184,7 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
 
     $("#loginForm input").on("input", function () {
         let input = $(this);
