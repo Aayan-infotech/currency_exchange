@@ -272,10 +272,15 @@ body {
         right: 0;
         left: 10px !important;
     }
+
     /* .navbar-custom .nav-link {
         text-align: end;
     } */
-    .about-us{
+    .about-us {
+        padding: 10px 0;
+    }
+
+    .currency-table {
         padding: 10px 0;
     }
 
