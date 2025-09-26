@@ -277,11 +277,11 @@ body {
         text-align: end;
     } */
     .about-us {
-        padding: 10px 0;
+        padding: 10px 0 !important;
     }
 
     .currency-table {
-        padding: 10px 0;
+        padding: 10px 0 !important;
     }
 
 }
