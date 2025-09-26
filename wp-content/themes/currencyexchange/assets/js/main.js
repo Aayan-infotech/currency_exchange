@@ -495,7 +495,6 @@ jQuery(document).ready(function ($) {
         let fullName = $("#fullName").val().trim();
         let mobile = $("#mobileNumber").val().trim();
         let idType = $("#idType").val();
-        let email = $("#email").val().trim();
         let ssn = $("#ssn").val().trim();
         let bankName = $("#bankName").val();
         if (fullName.length < 3) {
@@ -509,11 +508,6 @@ jQuery(document).ready(function ($) {
         }
         if (!idType) {
             $("#idTypeError").text("Please select ID Type");
-            valid = false;
-        }
-        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            $("#emailError").text("Enter a valid email address");
             valid = false;
         }
         let ssnPattern = /^[0-9]{4,}$/;

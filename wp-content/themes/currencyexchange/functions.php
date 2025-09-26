@@ -1147,7 +1147,6 @@ function update_profile_callback() {
     $user_id = intval($_POST['user_id']);
     if (!$user_id) wp_send_json_error(['message'=>'Invalid user']);
     $fullName = sanitize_text_field($_POST['fullName']);
-    $email    = sanitize_email($_POST['email']);
     $mobile   = sanitize_text_field($_POST['mobileNumber']);
     $idType   = sanitize_text_field($_POST['idType']);
     $ssn      = sanitize_text_field($_POST['ssn']);
@@ -1155,7 +1154,6 @@ function update_profile_callback() {
     wp_update_user([
         'ID'           => $user_id,
         'display_name' => $fullName,
-        'user_email'   => $email,
     ]);
     update_user_meta($user_id, 'full_name', $fullName);
     update_user_meta($user_id, 'mobile_number', $mobile);
