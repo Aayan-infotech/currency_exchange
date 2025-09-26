@@ -412,7 +412,7 @@ function custom_location_search()
                 p.post_title LIKE %s
                 OR (pm.meta_key IN ('number','email','location') AND pm.meta_value LIKE %s)
             )
-        ", $like, $like);
+        ", $like, $like, $like);
     }
     $sql .= " ORDER BY $order_by";
     $results = $wpdb->get_results($sql);
