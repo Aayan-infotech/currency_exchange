@@ -906,3 +906,137 @@ a.btn.btn-services:hover {
     color: #28a745 !important;
     font-weight: bold;
 }
+
+
+
+
+
+
+.profile-heading {
+    font-weight: 900;
+    font-size: 50px;
+    line-height: 50px;
+    letter-spacing: 0%;
+    vertical-align: middle;
+}
+
+/* Profile Section */
+.profile-section {
+    background: url('./assets/images/Grid\ 1.png') no-repeat center center/cover;
+    padding: 60px 0;
+    min-height: 60vh;
+}
+
+/* Profile Card */
+.profile-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+.profile-greeting {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.profile-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+/* Profile Details */
+.profile-details {
+    margin-bottom: 30px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    width: 40%;
+}
+
+.detail-value {
+    color: #555;
+    width: 60%;
+    text-align: right;
+}
+
+/* Action Buttons */
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-edit {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: #1a4502;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 94, 3, 0.3);
+}
+
+.btn-change-password {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-change-password:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
