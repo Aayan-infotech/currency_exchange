@@ -244,6 +244,11 @@
     .service-image {
         max-height: 300px;
     }
+
+    .dropdown-menu-end[data-bs-popper] {
+        right: 0;
+        left: 10px !important;
+    }
 }
 
 #loaderOverlay {
