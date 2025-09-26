@@ -157,13 +157,19 @@
                                         </td>
                                         <td class="positive-change">
                                             <?php
-                                            $params = 'isds=' . get_the_ID();
-                                            $encoded_params = base64_encode($params);
-                                            ?>
-                                            <button class="btn btn-buy mt-0"
-                                                onclick="window.location.href='<?php echo esc_url(site_url('/buy?data=' . $encoded_params)); ?>'">
-                                                Buy
-                                            </button>
+                                                $params = 'isds=' . get_the_ID();
+                                                $encoded_params = base64_encode($params);
+                                                $buy_url = site_url('/buy?data=' . $encoded_params);
+                                                if ( is_user_logged_in() ) {
+                                                    $redirect_url = $buy_url;
+                                                } else {
+                                                    $login_url = site_url('/login');
+                                                    $redirect_url = add_query_arg( 'redirect_to', urlencode($buy_url), $login_url );
+                                                }
+                                                ?>
+                                                <button class="btn btn-buy mt-0" onclick="window.location.href='<?php echo esc_url($redirect_url); ?>'">
+                                                    Buy
+                                                </button>
                                         </td>
                                     </tr>
                             <?php
