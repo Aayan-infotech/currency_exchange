@@ -252,6 +252,10 @@
     /* .navbar-custom .nav-link {
         text-align: end;
     } */
+    .about-us{
+        padding: 10px 0;
+    }
+
 }
 
 #loaderOverlay {
@@ -674,7 +678,7 @@ a.btn.btn-services:hover {
 
     .service-card,
     .currency-table {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
     .our-services,
