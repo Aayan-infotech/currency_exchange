@@ -910,7 +910,13 @@ a.btn.btn-services:hover {
 
 
 
-
+.profile-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
 
 .profile-heading {
     font-weight: 900;
@@ -1039,4 +1045,53 @@ a.btn.btn-services:hover {
 .btn-change-password:hover {
     background-color: #5a6268;
     transform: translateY(-2px);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .profile-heading {
+        font-size: 40px;
+        line-height: 40px;
+    }
+
+    .profile-card {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-heading {
+        font-size: 32px;
+        line-height: 32px;
+    }
+
+    .hero {
+        height: 25vh;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-heading {
+        font-size: 28px;
+        line-height: 28px;
+    }
+
+    .hero {
+        height: 22vh;
+    }
+
+    .profile-card {
+        padding: 20px 15px;
+    }
 }

@@ -82,21 +82,21 @@ jQuery(document).ready(function ($) {
             }
         }
     });
+    let name = $("#name");
+    name.on("keypress", function (e) {
+        let char = String.fromCharCode(e.which);
+        if (!/[a-zA-Z\s]/.test(char)) {
+            e.preventDefault();
+        }
+    });
     $("#SignUpForm").on("submit", function (e) {
         e.preventDefault();
         let valid = true;
-        let name = $("#name");
+
         let email = $("#email");
         let number = $("#number");
         let password = $("#password");
         let confirm_password = $("#confirm_password");
-
-        name.on("keypress", function (e) {
-            let char = String.fromCharCode(e.which);
-            if (!/[a-zA-Z\s]/.test(char)) {
-                e.preventDefault();
-            }
-        });
 
         if (!name.val().trim()) {
             showError(name, "Name is required.");
@@ -488,6 +488,127 @@ jQuery(document).ready(function ($) {
             complete: function () {
                 $("#loaderOverlay").fadeOut(300);
             },
+        });
+    });
+
+
+    function validateProfileForm() {
+        let valid = true;
+        $(".text-danger").text("");
+        let fullName = $("#fullName").val().trim();
+        let mobile = $("#mobileNumber").val().trim();
+        let idType = $("#idType").val();
+        let email = $("#email").val().trim();
+        let ssn = $("#ssn").val().trim();
+        let bankName = $("#bankName").val();
+        if (fullName.length < 3) {
+            $("#fullNameError").text("Full Name must be at least 3 characters");
+            valid = false;
+        }
+        let mobilePattern = /^[0-9]{10,15}$/;
+        if (!mobilePattern.test(mobile)) {
+            $("#mobileNumberError").text("Enter a valid mobile number");
+            valid = false;
+        }
+        if (!idType) {
+            $("#idTypeError").text("Please select ID Type");
+            valid = false;
+        }
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            $("#emailError").text("Enter a valid email address");
+            valid = false;
+        }
+        let ssnPattern = /^[0-9]{4,}$/;
+        if (!ssnPattern.test(ssn)) {
+            $("#ssnError").text("Enter a valid SSN");
+            valid = false;
+        }
+        if (!bankName) {
+            $("#bankNameError").text("Please select Bank Name");
+            valid = false;
+        }
+        return valid;
+    }
+
+    $("#profileForm").on("submit", function (e) {
+        e.preventDefault();
+        if (!validateProfileForm()) {
+            return;
+        }
+        let formData = $(this).serialize();
+        $.ajax({
+            type: "POST",
+            url: custom_ajax.ajax_url,
+            data: formData + "&action=update_profile",
+            beforeSend: function () {
+                $(".btn-update").prop("disabled", true).text("Updating...");
+            },
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire("Success", response.data.message, "success");
+                } else {
+                    Swal.fire("Error", response.data.message, "error");
+                }
+                $(".btn-update").prop("disabled", false).text("Update");
+            },
+            error: function () {
+                Swal.fire("Error", "Something went wrong, please try again.", "error");
+                $(".btn-update").prop("disabled", false).text("Update");
+            }
+        });
+    });
+    $(document).on("input change", ".form-control, select", function () {
+        $(this).next(".text-danger").text("");
+    });
+
+
+    $("#passwordForm").on("submit", function (e) {
+        e.preventDefault();
+        $("#passwordError").text("");
+        $("#confirmPasswordError").text("");
+        let password = $("#password").val().trim();
+        let confirmPassword = $("#confirmPassword").val().trim();
+        let valid = true;
+        if (!password) {
+            $("#passwordError").text("Password is required");
+            valid = false;
+        } else if (password.length < 6) {
+            $("#passwordError").text("Password must be at least 6 characters long");
+            valid = false;
+        }
+
+        if (!confirmPassword) {
+            $("#confirmPasswordError").text("Please confirm your password");
+            valid = false;
+        } else if (password !== confirmPassword) {
+            $("#confirmPasswordError").text("Passwords do not match");
+            valid = false;
+        }
+
+        if (!valid) return;
+        let formData = $(this).serialize();
+        $.ajax({
+            type: "POST",
+            url: custom_ajax.ajax_url,
+            data: formData + "&action=change_password",
+            beforeSend: function () {
+                $("#passwordForm .btn-update").text("Changing...").prop("disabled", true);
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#passwordForm")[0].reset();
+                    Swal.fire("Success", response.data.message, "success");
+                    window.location.href = custom_ajax.login_url;
+                } else {
+                    Swal.fire("Error", response.data.message, "error");
+                }
+                $("#passwordForm .btn-update").text("Change Password").prop("disabled", false);
+            },
+            error: function () {
+                Swal.fire("Error", "Something went wrong. Please try again.", "error");
+                $("#passwordForm .btn-update").text("Change Password").prop("disabled", false);
+            }
         });
     });
 });

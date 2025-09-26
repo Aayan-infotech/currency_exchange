@@ -88,8 +88,10 @@ $saved_country = $user_id ? get_user_meta($user_id, 'country', true) : '';
                                     <i class="fas fa-user"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li class="dropdown-item-text">
-                                        <strong><?php echo wp_get_current_user()->display_name; ?></strong>
+                                    <li>
+                                        <a class="dropdown-item" href="<?php echo site_url('/profile'); ?>">
+                                            <i class="fas fa-user"></i> Profile
+                                        </a>
                                     </li>
                                     <li>
                                         <hr class="dropdown-divider">

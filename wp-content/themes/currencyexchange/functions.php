@@ -225,7 +225,7 @@ function custom_user_registration_handler()
     $user = new WP_User($user_id);
     $user->set_role('subscriber');
     update_user_meta($user_id, 'full_name', $name);
-    update_user_meta($user_id, 'phone_number', $number);
+    update_user_meta($user_id, 'mobile_number', $number);
     wp_send_json(['success' => true, 'message' => 'Registration successful!']);
 }
 add_action('wp_ajax_nopriv_custom_user_registration', 'custom_user_registration_handler');
@@ -1136,3 +1136,51 @@ function enqueue_recaptcha_script()
     wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js', [], null, true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_recaptcha_script');
+
+
+add_action('wp_ajax_nopriv_update_profile', 'update_profile_callback');
+add_action('wp_ajax_update_profile', 'update_profile_callback');
+function update_profile_callback() {
+    if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'update_profile_nonce')) {
+        wp_send_json_error(['message'=>'Security check failed']);
+    }
+    $user_id = intval($_POST['user_id']);
+    if (!$user_id) wp_send_json_error(['message'=>'Invalid user']);
+    $fullName = sanitize_text_field($_POST['fullName']);
+    $email    = sanitize_email($_POST['email']);
+    $mobile   = sanitize_text_field($_POST['mobileNumber']);
+    $idType   = sanitize_text_field($_POST['idType']);
+    $ssn      = sanitize_text_field($_POST['ssn']);
+    $bankName = sanitize_text_field($_POST['bankName']);
+    wp_update_user([
+        'ID'           => $user_id,
+        'display_name' => $fullName,
+        'user_email'   => $email,
+    ]);
+    update_user_meta($user_id, 'full_name', $fullName);
+    update_user_meta($user_id, 'mobile_number', $mobile);
+    update_user_meta($user_id, 'id_type', $idType);
+    update_user_meta($user_id, 'ssn', $ssn);
+    update_user_meta($user_id, 'bank_name', $bankName);
+
+    wp_send_json_success(['message'=>'Profile updated successfully']);
+}
+
+
+add_action('wp_ajax_nopriv_change_password', 'change_password_callback');
+add_action('wp_ajax_change_password', 'change_password_callback');
+function change_password_callback() {
+    if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'change_password_nonce')) {
+        wp_send_json_error(['message'=>'Security check failed']);
+    }
+    $user_id = intval($_POST['user_id']);
+    $password = sanitize_text_field($_POST['password']);
+    $confirmPassword = sanitize_text_field($_POST['confirmPassword']);
+    if ($password !== $confirmPassword) {
+        wp_send_json_error(['message'=>'Passwords do not match']);
+    }
+    wp_set_password($password, $user_id);
+    wp_send_json_success(['message'=>'Password changed successfully']);
+}
+
+
