@@ -23,14 +23,6 @@
             <div class="row align-items-center g-2 search-section mt-2 mb-4" data-aos="fade-up" data-aos-duration="800"
                 data-aos-delay="300">
 
-                <!-- Reset Button -->
-                <!-- <div class="col-auto" data-aos="fade-right" data-aos-duration="800">
-                    <button type="button" id="reset-button"
-                        class="btn btn-success d-flex align-items-center justify-content-center">
-                        <i class="fas fa-sync-alt me-1"></i> Reset
-                    </button>
-                </div> -->
-
                 <!-- Search Input (50%) -->
                 <div class="col-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400">
                     <input type="text" class="form-control" id="location-search-input"
@@ -56,13 +48,31 @@
         </div>
         <div class="row g-4 pb-4">
             <?php
+            $user_id = get_current_user_id();
+            $country = get_user_meta($user_id, 'country', true);
             $paged = max(1, get_query_var('paged'));
+            if (is_user_logged_in() && $country && strtolower($country) !== 'all') {
             $args = array(
-                'post_type' => 'locations',
-                'posts_per_page' => 9,
-                'paged' => $paged,
-                'post_status' => 'publish',
+                'post_type'      => 'locations',
+                'posts_per_page' => 1,
+                'paged'          => $paged,
+                'post_status'    => 'publish',
+                'meta_query'     => array(
+                    array(
+                        'key'     => 'country',
+                        'value'   => '%' . $country . '%',
+                        'compare' => 'LIKE'
+                    )
+                )
             );
+            }else{
+                $args = array(
+                    'post_type' => 'locations',
+                    'posts_per_page' => 9,
+                    'paged' => $paged,
+                    'post_status' => 'publish',
+                );
+            }
             $query = new WP_Query($args);
             if ($query->have_posts()):
                 $delay = 200;
