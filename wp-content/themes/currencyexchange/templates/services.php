@@ -40,7 +40,7 @@ get_header();
                             <div class="mb-4">
                                 <img src="<?php echo esc_url($icon_url); ?>" height="50" width="50" alt="<?php the_title_attribute(); ?>" />
                             </div>
-                            <h5><?php echo esc_html($title); ?></h5>
+                            <h4><?php echo esc_html($title); ?></h4>
                             <p><?php echo esc_html($excerpt); ?></p>
                             <a href="<?php the_permalink(); ?>" style="color: white;" class="text-decoration-none btn btn-services">Learn More</a>
                         </div>
