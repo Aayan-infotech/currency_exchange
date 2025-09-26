@@ -368,9 +368,9 @@ function custom_location_search()
     if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'mytheme_global_nonce')) {
         wp_send_json(['success' => false, 'message' => 'Security check failed.']);
     }
-    $search   = sanitize_text_field($_POST['search'] ?? '');
-    $sort     = sanitize_text_field($_POST['sort'] ?? 'latest');
-    $user_id = get_current_user_id();
+    $search       = sanitize_text_field($_POST['search'] ?? '');
+    $sort         = sanitize_text_field($_POST['sort'] ?? 'latest');
+    $user_id      = get_current_user_id();
     $user_country = get_user_meta($user_id, 'country', true);
     $order_by = "p.post_date DESC";
     switch ($sort) {
@@ -395,16 +395,16 @@ function custom_location_search()
           AND p.post_status = 'publish'
     ";
     if (is_user_logged_in() && $user_country && strtolower($user_country) !== 'all') {
+        $country_like = '%' . $wpdb->esc_like($user_country) . '%';
         $sql .= $wpdb->prepare(" 
             AND EXISTS (
                 SELECT 1 FROM {$wpdb->postmeta} pmc
                 WHERE pmc.post_id = p.ID 
                   AND pmc.meta_key = 'country'
-                  AND pmc.meta_value = %s
+                  AND pmc.meta_value LIKE %s
             )
-        ", $user_country);
+        ", $country_like);
     }
-
     if (!empty($search)) {
         $like = '%' . $wpdb->esc_like($search) . '%';
         $sql .= $wpdb->prepare("
@@ -412,7 +412,7 @@ function custom_location_search()
                 p.post_title LIKE %s
                 OR (pm.meta_key IN ('number','email','location') AND pm.meta_value LIKE %s)
             )
-        ", $like, $like, $like);
+        ", $like, $like);
     }
     $sql .= " ORDER BY $order_by";
     $results = $wpdb->get_results($sql);
@@ -427,7 +427,7 @@ function custom_location_search()
             $email   = get_post_meta($row->ID, 'email', true);
             $address = get_post_meta($row->ID, 'location', true);
             $timing  = get_post_meta($row->ID, 'timing', true);
-?>
+            ?>
             <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="<?php echo esc_attr($delay); ?>">
                 <div class="card location-card text-white">
                     <img src="<?php echo esc_url($image_url); ?>" class="card-img" alt="<?php echo esc_attr($row->post_title); ?>" />
@@ -440,7 +440,7 @@ function custom_location_search()
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
             $delay += 100;
         }
     } else {
@@ -452,6 +452,7 @@ function custom_location_search()
         'html'    => $html,
     ]);
 }
+
 add_action('wp_ajax_custom_location_search', 'custom_location_search');
 add_action('wp_ajax_nopriv_custom_location_search', 'custom_location_search');
 
