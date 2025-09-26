@@ -449,11 +449,24 @@ if (isset($_GET['data'])) {
             updateTotal();
         });
 
-        $(".delivery-option").on("click", function() {
+        $(".delivery-option").on("click", function () {
             var value = $(this).data("value");
             $("#deliveryModeInput").val(value);
             $("#deliveryModal").modal("hide");
+            if (value === "Home Delivery (In 3–4 Days)") {
+                $("button[data-bs-target='#storeModal']")
+                    .prop("disabled", true)
+                    .addClass("disabled");
+                $("#storeInput").val("").attr("placeholder", "Store selection disabled");
+            } else {
+                $("button[data-bs-target='#storeModal']")
+                    .prop("disabled", false)
+                    .removeClass("disabled");
+                $("#storeInput").attr("placeholder", "No store selected");
+            }
         });
+
+
         $(".location-card-wrapper").on("click", function() {
             var storeName = $(this).data("store-name");
             var storeId = $(this).data("store-id");
@@ -636,12 +649,10 @@ if (isset($_GET['data'])) {
             var addressInput = $("#addressInput").val();
             var paymentInput = $("#paymentInput").val();
             var currency_id = $("#currency_id").val();
-
             if (!price || !deliveryMode || !storeId || !addressInput || !paymentInput) {
                 alert("Please fill all option!");
                 return;
             }
-
             $.ajax({
                 url: '<?php echo admin_url("admin-ajax.php"); ?>',
                 method: "POST",
