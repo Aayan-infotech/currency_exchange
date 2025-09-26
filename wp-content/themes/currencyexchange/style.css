@@ -27,7 +27,7 @@ body {
     overflow-x: hidden;
 }
 
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
     * {
         margin: 0;
         padding: 0;
@@ -41,4 +41,4 @@ body {
         color: #333;
         font-family: 'Arial', sans-serif;
     }
-} */
+}
