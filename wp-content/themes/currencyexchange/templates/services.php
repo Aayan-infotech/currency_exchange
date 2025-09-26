@@ -36,11 +36,11 @@ get_header();
                     $excerpt = wp_trim_words(get_the_excerpt(), 30, '...');
             ?>
                     <div class="col-md-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="<?php echo $delay; ?>">
-                        <div class="service-card h-100">
+                        <div class="service-card">
                             <div class="mb-4">
                                 <img src="<?php echo esc_url($icon_url); ?>" height="50" width="50" alt="<?php the_title_attribute(); ?>" />
                             </div>
-                            <h3><?php echo esc_html($title); ?></h3>
+                            <h5><?php echo esc_html($title); ?></h5>
                             <p><?php echo esc_html($excerpt); ?></p>
                             <a href="<?php the_permalink(); ?>" style="color: white;" class="text-decoration-none btn btn-services">Learn More</a>
                         </div>
