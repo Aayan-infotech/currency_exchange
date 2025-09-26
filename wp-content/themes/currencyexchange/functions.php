@@ -346,19 +346,6 @@ function custom_reset_password()
     if (empty($_POST['captcha'])) {
         wp_send_json(['success' => false, 'message' => 'Captcha is required.']);
     }
-    $response = sanitize_text_field($_POST['captcha']);
-    $remoteip = $_SERVER['REMOTE_ADDR'];
-    $secret_key = RECAPTCHA_SECRET_KEY;
-
-    $verify   = wp_remote_get(
-        "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response}&remoteip={$remoteip}"
-    );
-
-    $verified = json_decode(wp_remote_retrieve_body($verify));
-
-    if (empty($verified->success)) {
-        wp_send_json(['success' => false, 'message' => 'Captcha verification failed.']);
-    }
     $user = get_user_by('email', $email);
     if (!$user) {
         wp_send_json(['success' => false, 'message' => 'Invalid email.']);
@@ -375,6 +362,8 @@ function custom_reset_password()
 }
 add_action('wp_ajax_nopriv_custom_reset_password', 'custom_reset_password');
 add_action('wp_ajax_custom_reset_password', 'custom_reset_password');
+
+
 
 function custom_location_search()
 {
