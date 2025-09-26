@@ -52,5 +52,5 @@ $site_key   = RECAPTCHA_SITE_KEY;
             </form>
         </div>
     </div>
-</section>
+</section>   
 <?php get_footer(); ?>
